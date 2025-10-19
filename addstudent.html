@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <title>Student Registration</title>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --light-gray: #f5f5f5;
+      --dark-gray: #555;
+      --danger: #d93025;
+      --success: #1e8e3e;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--light-gray);
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 480px;
+      padding: 30px;
+      position: relative;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+    
+    .back-link i {
+      margin-right: 6px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 24px;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .alert {
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+      text-align: center;
+    }
+    
+    .alert-success {
+      background-color: #e6f4ea;
+      color: var(--success);
+      border: 1px solid #c6e7d4;
+    }
+    
+    .alert-error {
+      background-color: #fce8e6;
+      color: var(--danger);
+      border: 1px solid #f6cdc8;
+    }
+    
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px 10px 10px 38px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 15px;
+      transition: border 0.3s ease;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--dark-gray);
+      font-weight: 500;
+    }
+    
+    .form-icon {
+      position: absolute;
+      left: 12px;
+      top: 36px;
+      color: #888;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 36px;
+      color: #888;
+      cursor: pointer;
+    }
+    
+    .form-hint {
+      font-size: 12px;
+      color: #777;
+      margin-top: 4px;
+    }
+    
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="admindashboard.html" class="back-link">
+      <i class='bx bx-arrow-back'></i> Back to Dashboard
+    </a>
+    
+    <h1>Student Registration</h1>
+    
+    <div id="successMessage" class="alert alert-success">Registration successful!</div>
+    <div id="errorMessage" class="alert alert-error">Error in registration.</div>
+    
+    <form id="registrationForm">
+      <div class="form-group">
+        <label class="form-label" for="rollNo">Roll Number</label>
+        <i class='bx bx-id-card form-icon'></i>
+        <input type="text" id="rollNo" class="form-control" required pattern="[0-9]{2}[A-Z]{3}[0-9]{3}">
+        <div class="form-hint">Format: 23CSE240</div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="regdNo">Registration Number</label>
+        <i class='bx bx-id-card form-icon'></i>
+        <input type="text" id="regdNo" class="form-control" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="user">Username</label>
+        <i class='bx bx-user form-icon'></i>
+        <input type="text" id="user" class="form-control" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="mail">Email Address</label>
+        <i class='bx bx-envelope form-icon'></i>
+        <input type="email" id="mail" class="form-control" required>
+        <div class="form-hint">Format: rollnumber.name@giet.edu (lowercase)</div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="pass">Password</label>
+        <i class='bx bx-lock-alt form-icon'></i>
+        <input type="password" id="pass" class="form-control" required minlength="6">
+        <i class='bx bx-hide password-toggle' id="togglePassword"></i>
+        <div class="form-hint">Minimum 6 characters</div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="mobile">Mobile Number</label>
+        <i class='bx bx-phone form-icon'></i>
+        <input type="tel" id="mobile" class="form-control" required pattern="[0-9]{10}">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="gender">Gender</label>
+        <i class='bx bx-user form-icon'></i>
+        <select id="gender" class="form-control" required>
+          <option value="" disabled selected>Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn">Register</button>
+    </form>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+      authDomain: "learningproject1-8cd8a.firebaseapp.com",
+      databaseURL: "https://learningproject1-8cd8a-default-rtdb.firebaseio.com/",
+      projectId: "learningproject1-8cd8a",
+      storageBucket: "learningproject1-8cd8a.appspot.com",
+      messagingSenderId: "111895053885",
+      appId: "1:111895053885:web:63928897a46241ed2ecc54"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Fill email field based on roll number and username
+    const rollNoField = document.getElementById("rollNo");
+    const userField = document.getElementById("user");
+    const emailField = document.getElementById("mail");
+    
+    function updateEmailSuggestion() {
+      const rollNo = rollNoField.value.trim().toLowerCase();
+      const username = userField.value.trim().toLowerCase();
+      
+      if (rollNo && username) {
+        emailField.value = `${rollNo}.${username}@giet.edu`;
+      }
+    }
+    
+    rollNoField.addEventListener("blur", updateEmailSuggestion);
+    userField.addEventListener("blur", updateEmailSuggestion);
+
+    // Toggle password visibility
+    document.getElementById("togglePassword").addEventListener("click", () => {
+      const passField = document.getElementById("pass");
+      const toggleIcon = document.getElementById("togglePassword");
+      
+      if (passField.type === "password") {
+        passField.type = "text";
+        toggleIcon.classList.replace("bx-hide", "bx-show");
+      } else {
+        passField.type = "password";
+        toggleIcon.classList.replace("bx-show", "bx-hide");
+      }
+    });
+
+    function showMessage(id, message) {
+      const messageElement = document.getElementById(id);
+      messageElement.textContent = message;
+      messageElement.style.display = "block";
+      
+      setTimeout(() => {
+        messageElement.style.display = "none";
+      }, 3000);
+    }
+
+    document.getElementById("registrationForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const rollNumber = document.getElementById("rollNo").value.trim();
+      const regdNumber = document.getElementById("regdNo").value.trim();
+      const username = document.getElementById("user").value.trim();
+      const email = document.getElementById("mail").value.trim().toLowerCase();
+      const password = document.getElementById("pass").value;
+      const mobile = document.getElementById("mobile").value.trim();
+      const gender = document.getElementById("gender").value;
+
+      // Validate roll number format
+      const rollPattern = /^[0-9]{2}[A-Z]{3}[0-9]{3}$/;
+      if (!rollPattern.test(rollNumber)) {
+        showMessage("errorMessage", "Invalid roll number format (e.g., 23CSE240)");
+        return;
+      }
+
+      // Validate email format
+      const emailPattern = new RegExp(`^${rollNumber.toLowerCase()}\\.\\w+@giet\\.edu$`);
+      if (!emailPattern.test(email)) {
+        showMessage("errorMessage", `Email must be in format: ${rollNumber.toLowerCase()}.name@giet.edu`);
+        return;
+      }
+
+      // Validate password length
+      if (password.length < 6) {
+        showMessage("errorMessage", "Password must be at least 6 characters");
+        return;
+      }
+
+      // Validate mobile number
+      if (!/^[0-9]{10}$/.test(mobile)) {
+        showMessage("errorMessage", "Mobile number must be 10 digits");
+        return;
+      }
+
+      // Check if roll number already exists and save data
+      const studentRef = ref(db, "student_register/" + rollNumber);
+      get(studentRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          showMessage("errorMessage", "Roll number already exists");
+        } else {
+          set(studentRef, {
+            rollNumber,
+            regdNumber,
+            username,
+            email,
+            password,
+            mobile,
+            gender
+          }).then(() => {
+            showMessage("successMessage", "Registration successful!");
+            document.getElementById("registrationForm").reset();
+          }).catch((error) => {
+            showMessage("errorMessage", "Failed to register: " + error.message);
+          });
+        }
+      }).catch((error) => {
+        showMessage("errorMessage", "Database error: " + error.message);
+      });
+    });
+  </script>
+</body>
+</html>

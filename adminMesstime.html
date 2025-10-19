@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelEase - Mess Timetable</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #003575;
+            --secondary-color: #6c757d;
+            --accent-color: #007bff;
+            --background-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .back-button:hover {
+            background-color: #002855;
+            box-shadow: var(--shadow);
+        }
+        
+        .back-button i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .page-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+        
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .timetable th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .timetable td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .timetable tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .timetable tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .day-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 15px 0;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .meal-type {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .meal-time {
+            color: var(--secondary-color);
+        }
+        
+        .edit-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .edit-btn:hover {
+            background-color: #0069d9;
+        }
+        
+        .save-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            margin-right: 5px;
+        }
+        
+        .save-btn:hover {
+            background-color: #218838;
+        }
+        
+        .cancel-btn {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .cancel-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .edit-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .admin-controls {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .admin-toggle {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .admin-toggle:hover {
+            background-color: #002855;
+        }
+        
+        .admin-panel {
+            display: none;
+            background-color: #f0f0f0;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .admin-panel.active {
+            display: block;
+        }
+        
+        .admin-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .admin-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .timetable th, 
+            .timetable td {
+                padding: 10px;
+            }
+            
+            .admin-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="admin_statistics.html" class="back-button">
+            <i class='bx bx-arrow-back'></i> Back to Dashboard
+        </a>
+        
+        <div class="admin-controls">
+            <button id="admin-toggle" class="admin-toggle">
+                <i class='bx bx-lock'></i> Admin Mode
+            </button>
+        </div>
+        
+        <div id="admin-panel" class="admin-panel">
+            <h2 class="admin-title">Admin Panel</h2>
+            <div class="form-group">
+                <label for="admin-day-select" class="form-label">Select Day to Edit</label>
+                <select id="admin-day-select" class="form-control">
+                    <option value="">-- Select Day --</option>
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                </select>
+            </div>
+            
+            <div id="admin-edit-container" style="display: none;">
+                <h3 id="admin-day-title" class="day-title"></h3>
+                <div id="admin-form" class="admin-form">
+                    <!-- Form will be generated here -->
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="save-changes" class="save-btn">Save All Changes</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h1 class="page-title">Hostel Mess Timetable</h1>
+            
+            <div class="form-group">
+                <label for="day-select" class="form-label">Select Day</label>
+                <select id="day-select" class="form-control">
+                    <option value="">-- Select Day --</option>
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                </select>
+            </div>
+            
+            <div id="timetable-container" style="display: none;">
+                <h2 class="day-title" id="day-title"></h2>
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>Meal</th>
+                            <th>Time</th>
+                            <th>Menu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification">Changes saved successfully!</div>
+    
+    <script>
+        // Initialize timetables from localStorage or use default
+        let timetables = localStorage.getItem('messTimetables') ? 
+            JSON.parse(localStorage.getItem('messTimetables')) : {
+                sunday: [
+                    { meal: 'Breakfast', time: '8:00 AM - 9:30 AM', menu: 'Idli, Sambhar, Chutney' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Sabzi, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Paneer Butter Masala, Rice' }
+                ],
+                monday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Bara, Upma, Curry' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Aloo Curry, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Mushroom Curry, Rice' }
+                ],
+                tuesday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Uthapam, Aloo Curry, Chutney' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Egg Masala, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Mix Veg Curry, Rice' }
+                ],
+                wednesday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Idli, Sambhar, Chutney' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Sabzi, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Paneer Butter Masala, Rice' }
+                ],
+                thursday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Poha, Boiled Egg, Tea' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal Tadka, Bhindi Masala, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Chana Masala, Rice, Raita' }
+                ],
+                friday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Puri, Aloo Sabzi, Tea' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Rajma, Jeera Aloo, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Matar Paneer, Rice, Kheer' }
+                ],
+                saturday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Dosa, Sambhar, Coconut Chutney' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Mix Veg, Roti, Curd' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Malai Kofta, Rice, Salad' }
+                ],
+            };
+        
+        // User View - Display timetable
+        document.getElementById('day-select').addEventListener('change', function () {
+            displayTimetable(this.value);
+        });
+        
+        function displayTimetable(selectedDay) {
+            const timetableContainer = document.getElementById('timetable-container');
+            const dayTitle = document.getElementById('day-title');
+            const timetableBody = document.getElementById('timetable-body');
+            
+            if (selectedDay) {
+                timetableContainer.style.display = 'block';
+                dayTitle.innerText = selectedDay.charAt(0).toUpperCase() + selectedDay.slice(1) + ' Menu';
+                timetableBody.innerHTML = '';
+                
+                timetables[selectedDay].forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="meal-type">${item.meal}</td>
+                        <td class="meal-time">${item.time}</td>
+                        <td>${item.menu}</td>
+                    `;
+                    timetableBody.appendChild(row);
+                });
+            } else {
+                timetableContainer.style.display = 'none';
+            }
+        }
+        
+        // Admin Panel Toggle
+        document.getElementById('admin-toggle').addEventListener('click', function() {
+            const adminPanel = document.getElementById('admin-panel');
+            adminPanel.classList.toggle('active');
+            
+            // Change button text based on panel state
+            const isActive = adminPanel.classList.contains('active');
+            this.innerHTML = isActive ? 
+                '<i class=\'bx bx-lock-open\'></i> Close Admin Mode' : 
+                '<i class=\'bx bx-lock\'></i> Admin Mode';
+        });
+        
+        // Admin Day Selection
+        document.getElementById('admin-day-select').addEventListener('change', function () {
+            const selectedDay = this.value;
+            const adminEditContainer = document.getElementById('admin-edit-container');
+            const adminDayTitle = document.getElementById('admin-day-title');
+            const adminForm = document.getElementById('admin-form');
+            
+            if (selectedDay) {
+                adminEditContainer.style.display = 'block';
+                adminDayTitle.innerText = selectedDay.charAt(0).toUpperCase() + selectedDay.slice(1) + ' Menu';
+                adminForm.innerHTML = '';
+                
+                timetables[selectedDay].forEach((item, index) => {
+                    const mealRow = document.createElement('div');
+                    mealRow.className = 'admin-row';
+                    mealRow.innerHTML = `
+                        <div>
+                            <label class="form-label">Meal</label>
+                            <input type="text" class="edit-input meal-input" value="${item.meal}" data-index="${index}">
+                        </div>
+                        <div>
+                            <label class="form-label">Time</label>
+                            <input type="text" class="edit-input time-input" value="${item.time}" data-index="${index}">
+                        </div>
+                        <div>
+                            <label class="form-label">Menu</label>
+                            <input type="text" class="edit-input menu-input" value="${item.menu}" data-index="${index}">
+                        </div>
+                    `;
+                    adminForm.appendChild(mealRow);
+                });
+                
+                // Add button to add new meal
+                const addMealRow = document.createElement('div');
+                addMealRow.style.textAlign = 'center';
+                addMealRow.innerHTML = `
+                    <button id="add-meal" class="edit-btn">
+                        <i class='bx bx-plus'></i> Add New Meal
+                    </button>
+                `;
+                adminForm.appendChild(addMealRow);
+                
+                // Event listener for add meal button
+                document.getElementById('add-meal').addEventListener('click', function() {
+                    const selectedDay = document.getElementById('admin-day-select').value;
+                    timetables[selectedDay].push({
+                        meal: 'New Meal',
+                        time: '00:00 AM - 00:00 AM',
+                        menu: 'Enter menu items'
+                    });
+                    
+                    // Refresh admin form
+                    document.getElementById('admin-day-select').dispatchEvent(new Event('change'));
+                });
+            } else {
+                adminEditContainer.style.display = 'none';
+            }
+        });
+        
+        // Save Changes Event
+        document.getElementById('save-changes').addEventListener('click', function() {
+            const selectedDay = document.getElementById('admin-day-select').value;
+            if (!selectedDay) return;
+            
+            const mealInputs = document.querySelectorAll('.meal-input');
+            const timeInputs = document.querySelectorAll('.time-input');
+            const menuInputs = document.querySelectorAll('.menu-input');
+            
+            for (let i = 0; i < mealInputs.length; i++) {
+                const index = mealInputs[i].dataset.index;
+                timetables[selectedDay][index].meal = mealInputs[i].value;
+                timetables[selectedDay][index].time = timeInputs[i].value;
+                timetables[selectedDay][index].menu = menuInputs[i].value;
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('messTimetables', JSON.stringify(timetables));
+            
+            // Update display if the same day is selected in the user view
+            const userSelectedDay = document.getElementById('day-select').value;
+            if (userSelectedDay === selectedDay) {
+                displayTimetable(userSelectedDay);
+            }
+            
+            // Show notification
+            showNotification();
+        });
+        
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

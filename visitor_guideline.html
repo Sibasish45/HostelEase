@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Guidelines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('./brick_wall.avif');
+            background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        header {
+            background-image: linear-gradient(to right ,#000000, #003575);             color: white;
+            text-align: center;
+            padding: 1em;
+            font-size: 1.5em;
+        }
+        nav {
+            background: #0055a5;
+            text-align: center;
+            padding: 0.7em;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 190px;
+            left: 20px;
+            padding: 12px 20px;
+            background-image: linear-gradient(to right, #000000, #003575);
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background-image: linear-gradient(to right, #003575, #000000);
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Visitor's Guidelines</h1>
+    </header>
+
+    <main>
+        <section id="guidelines">
+            <h2>Guidelines for Visitors</h2>
+            <ul>
+                <li>All visitors must register at the reception upon arrival.</li>
+                <li>Visitors must carry a valid ID.</li>
+                <li>Visiting hours are from 9 AM to 6 PM.</li>
+                <li>Maintain decorum and respect the premises.</li>
+                <li>Unauthorized access to restricted areas is prohibited.</li>
+                <li>Smoking and alcohol consumption are not allowed.</li>
+                <li>Please follow the instructions of the security staff.</li>
+            </ul>
+        </section>
+
+    </main>
+    <a href="index.html" class="back-button">← Back</a>
+
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Room Details</title>
+  <meta charset="UTF-8">
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+      authDomain: "learningproject1-8cd8a.firebaseapp.com",
+      databaseURL: "https://learningproject1-8cd8a-default-rtdb.firebaseio.com",
+      projectId: "learningproject1-8cd8a",
+      storageBucket: "learningproject1-8cd8a.appspot.com",
+      messagingSenderId: "111895053885",
+      appId: "1:111895053885:web:63928897a46241ed2ecc54"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dbRef = ref(db);
+
+    // Get roll number from local storage
+    const rollno = localStorage.getItem("studentRollNo");
+
+    if (rollno) {
+      // First, get the student info from student_register
+      get(child(dbRef, `student_register/${rollno}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          const student = snapshot.val();
+          document.getElementById("studentName").textContent = student.name || "N/A";
+          document.getElementById("rollNo").textContent = rollno;
+
+          // Now get room data from student_rooms/{rollno}
+          get(child(dbRef, `student_rooms/${rollno}`)).then((roomSnap) => {
+            if (roomSnap.exists()) {
+              const roomData = roomSnap.val();
+              document.getElementById("building").textContent = roomData.building || "N/A";
+              document.getElementById("room").textContent = roomData.room || "N/A";
+              document.getElementById("bed").textContent = roomData.bed || "N/A";
+              document.getElementById("assignedAt").textContent = new Date(roomData.assignedAt).toLocaleString();
+            } else {
+              document.getElementById("roomDetails").innerHTML += `<div style="color:red;">Room details not found.</div>`;
+            }
+          }).catch((error) => {
+            console.error("Room fetch error:", error);
+          });
+
+        } else {
+          document.getElementById("roomDetails").innerHTML = `<div style="color:red;">Student not found.</div>`;
+        }
+      }).catch((error) => {
+        console.error("Student fetch error:", error);
+      });
+    } else {
+      document.getElementById("roomDetails").innerHTML = `<div style="color:red;">No roll number in local storage.</div>`;
+    }
+
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f3f3f3;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .info {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Room Details</h2>
+    <div id="roomDetails">
+      <div class="info"><span class="label">Name:</span> <span id="studentName">Loading...</span></div>
+      <div class="info"><span class="label">Roll Number:</span> <span id="rollNo">Loading...</span></div>
+      <div class="info"><span class="label">Building:</span> <span id="building">Loading...</span></div>
+      <div class="info"><span class="label">Room:</span> <span id="room">Loading...</span></div>
+      <div class="info"><span class="label">Bed:</span> <span id="bed">Loading...</span></div>
+      <div class="info"><span class="label">Assigned At:</span> <span id="assignedAt">Loading...</span></div>
+    </div>
+  </div>
+</body>
+</html>

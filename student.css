@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #eaeef7;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+h1, h2 {
+    text-align: center;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 36px;
+    color: #3b5998;
+}
+
+h2 {
+    font-size: 28px;
+    color: #555;
+}
+
+.student-notices ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.student-notices li {
+    padding: 15px 20px;
+    background-color: #fafafa;
+    margin-bottom: 15px;
+    border-left: 5px solid #3b5998;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.student-notices li:hover {
+    background-color: #f0f4ff;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.notice-item p {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.notice-item small {
+    font-size: 13px;
+    color: #777;
+    display: block;
+    margin-top: 10px;
+}
+
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3b5998;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #2a4376;
+}

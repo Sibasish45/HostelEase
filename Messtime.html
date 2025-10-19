@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelEase - Mess Timetable</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #003575;
+            --secondary-color: #6c757d;
+            --accent-color: #007bff;
+            --background-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .back-button:hover {
+            background-color: #002855;
+            box-shadow: var(--shadow);
+        }
+        
+        .back-button i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .page-title {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+        
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .timetable th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .timetable td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .timetable tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .timetable tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .day-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 15px 0;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .meal-type {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .meal-time {
+            color: var(--secondary-color);
+        }
+        
+        .current-day {
+            background-color: #e6f7ff;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .timetable th, 
+            .timetable td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="studashboard.html" class="back-button">
+            <i class='bx bx-arrow-back'></i> Back to Dashboard
+        </a>
+        
+        <div class="card">
+            <h1 class="page-title">Mess Food Menu</h1>
+            
+            <div class="form-group">
+                <label for="day-select" class="form-label">Select Day</label>
+                <select id="day-select" class="form-control">
+                    <option value="">-- Select Day --</option>
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                </select>
+            </div>
+            
+            <div id="timetable-container" style="display: none;">
+                <h2 class="day-title" id="day-title"></h2>
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>Meal</th>
+                            <th>Time</th>
+                            <th>Menu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize timetables from localStorage or use default
+        let timetables = localStorage.getItem('messTimetables') ? 
+            JSON.parse(localStorage.getItem('messTimetables')) : {
+                sunday: [
+                    { meal: 'Breakfast', time: '8:00 AM - 9:30 AM', menu: 'Idli, Sambhar, Chutney' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Sabzi, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Paneer Butter Masala, Rice' }
+                ],
+                monday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Bara, Upma, Curry' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Aloo Curry, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Mushroom Curry, Rice' }
+                ],
+                tuesday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Uthapam, Aloo Curry, Chutney' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Egg Masala, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Mix Veg Curry, Rice' }
+                ],
+                wednesday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Idli, Sambhar, Chutney' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Sabzi, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Paneer Butter Masala, Rice' }
+                ],
+                thursday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Poha, Boiled Egg, Tea' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal Tadka, Bhindi Masala, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Chana Masala, Rice, Raita' }
+                ],
+                friday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Puri, Aloo Sabzi, Tea' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Rajma, Jeera Aloo, Roti' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Matar Paneer, Rice, Kheer' }
+                ],
+                saturday: [
+                    { meal: 'Breakfast', time: '7:00 AM - 8:30 AM', menu: 'Dosa, Sambhar, Coconut Chutney' },
+                    { meal: 'Lunch', time: '12:30 PM - 2:30 PM', menu: 'Rice, Dal, Mix Veg, Roti, Curd' },
+                    { meal: 'Dinner', time: '8:00 PM - 9:45 PM', menu: 'Chapati, Malai Kofta, Rice, Salad' }
+                ],
+            };
+        
+        // User View - Display timetable
+        document.getElementById('day-select').addEventListener('change', function () {
+            displayTimetable(this.value);
+        });
+        
+        function displayTimetable(selectedDay) {
+            const timetableContainer = document.getElementById('timetable-container');
+            const dayTitle = document.getElementById('day-title');
+            const timetableBody = document.getElementById('timetable-body');
+            
+            if (selectedDay) {
+                timetableContainer.style.display = 'block';
+                dayTitle.innerText = selectedDay.charAt(0).toUpperCase() + selectedDay.slice(1) + ' Menu';
+                timetableBody.innerHTML = '';
+                
+                timetables[selectedDay].forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="meal-type">${item.meal}</td>
+                        <td class="meal-time">${item.time}</td>
+                        <td>${item.menu}</td>
+                    `;
+                    timetableBody.appendChild(row);
+                });
+            } else {
+                timetableContainer.style.display = 'none';
+            }
+        }
+        
+        // Auto-select current day on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const today = new Date().getDay(); // 0 is Sunday, 1 is Monday, etc.
+            const currentDay = days[today];
+            
+            document.getElementById('day-select').value = currentDay;
+            displayTimetable(currentDay);
+        });
+    </script>
+</body>
+</html>

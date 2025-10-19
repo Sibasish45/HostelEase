@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #f59e0b;
+            --text-color: #374151;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 30px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.5s ease;
+        }
+        
+        .welcome-message {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .header-actions button {
+            background: var(--white);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .header-actions button:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .back-button {
+            background: var(--secondary-color) !important;
+            color: var(--white) !important;
+        }
+        
+        .back-button:hover {
+            background: var(--primary-color) !important;
+            transform: translateX(-5px);
+        }
+        
+        .profile-section {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .profile-section h2 {
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .profile-section h2 i {
+            color: var(--secondary-color);
+        }
+        
+        .profile-data {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .data-item {
+            position: relative;
+            transition: var(--transition);
+            padding: 5px;
+            border-radius: 8px;
+        }
+        
+        .data-item:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .data-label {
+            font-weight: 500;
+            color: #6b7280;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 14px;
+        }
+        
+        .data-value {
+            color: var(--text-color);
+            padding: 8px 0;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        .room-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .room-details {
+            flex: 1;
+        }
+        
+        .room-inventory {
+            flex: 1;
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .inventory-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .inventory-list {
+            list-style: none;
+        }
+        
+        .inventory-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .inventory-item:last-child {
+            border-bottom: none;
+        }
+        
+        .inventory-item i {
+            font-size: 18px;
+            color: var(--secondary-color);
+            width: 24px;
+        }
+        
+        .inventory-item .item-name {
+            font-weight: 500;
+        }
+        
+        .inventory-item .item-status {
+            margin-left: auto;
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-damaged {
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .profile-data {
+                grid-template-columns: 1fr;
+            }
+            
+            .room-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .staggered-item {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-message" id="welcome-message">Hello <span id="student-roll">Loading...</span></div>
+        
+        <div class="header">
+            <div class="header-actions">
+                <button id="back-button" class="back-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+                <button id="print-profile"><i class="fas fa-print"></i> Print Profile</button>
+            </div>
+        </div>
+
+        <section id="personal" class="profile-section">
+            <h2><i class="fas fa-user-circle"></i> Personal Information</h2>
+            <div class="profile-data">
+                <div class="data-item staggered-item">
+                    <span class="data-label">Full Name</span>
+                    <div class="data-value" id="username">Loading...</div>
+                </div>
+                <div class="data-item staggered-item">
+                    <span class="data-label">Roll Number</span>
+                    <div class="data-value" id="rollNumber">Loading...</div>
+                </div>
+                <div class="data-item staggered-item">
+                    <span class="data-label">Registration Number</span>
+                    <div class="data-value" id="regdNumber">Loading...</div>
+                </div>
+                <div class="data-item staggered-item">
+                    <span class="data-label">Email Address</span>
+                    <div class="data-value" id="email">Loading...</div>
+                </div>
+                <div class="data-item staggered-item">
+                    <span class="data-label">Mobile Number</span>
+                    <div class="data-value" id="mobile">Loading...</div>
+                </div>
+                <div class="data-item staggered-item">
+                    <span class="data-label">Gender</span>
+                    <div class="data-value" id="gender">Loading...</div>
+                </div>
+                <div class="data-item staggered-item">
+                    <span class="data-label">Program</span>
+                    <div class="data-value">Bachelor of Technology</div>
+                </div>
+                <div class="data-item staggered-item">
+                    <span class="data-label">Department</span>
+                    <div class="data-value">Computer Science</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="room" class="profile-section">
+            <h2><i class="fas fa-door-open"></i> Room Details</h2>
+            <div class="room-layout">
+                <div class="room-details">
+                    <div class="profile-data">
+                        <div class="data-item staggered-item">
+                            <span class="data-label">Building/Hostel</span>
+                            <div class="data-value" id="building">Loading...</div>
+                        </div>
+                        <div class="data-item staggered-item">
+                            <span class="data-label">Room Number</span>
+                            <div class="data-value" id="roomNumber">Loading...</div>
+                        </div>
+                        <div class="data-item staggered-item">
+                            <span class="data-label">Bed/Position</span>
+                            <div class="data-value" id="bed">Loading...</div>
+                        </div>
+                        <div class="data-item staggered-item">
+                            <span class="data-label">Assigned Date</span>
+                            <div class="data-value" id="assignedAt">Loading...</div>
+                        </div>
+                        <div class="data-item staggered-item">
+                            <span class="data-label">Room Type</span>
+                            <div class="data-value" id="roomType">Double Room</div>
+                        </div>
+                        <div class="data-item staggered-item">
+                            <span class="data-label">Floor</span>
+                            <div class="data-value" id="floorNumber">1st Floor</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="room-inventory">
+                    <h3 class="inventory-title">Room Inventory</h3>
+                    <ul class="inventory-list">
+                        <li class="inventory-item staggered-item">
+                            <i class="fas fa-bed"></i>
+                            <span class="item-name">Bed with Mattress</span>
+                            <span class="item-status">Good Condition</span>
+                        </li>
+                        <li class="inventory-item staggered-item">
+                            <i class="fas fa-desktop"></i>
+                            <span class="item-name">Study Table</span>
+                            <span class="item-status">Good Condition</span>
+                        </li>
+                        <li class="inventory-item staggered-item">
+                            <i class="fas fa-chair"></i>
+                            <span class="item-name">Chair</span>
+                            <span class="item-status">Good Condition</span>
+                        </li>
+                        <li class="inventory-item staggered-item">
+                            <i class="fas fa-archive"></i>
+                            <span class="item-name">Wardrobe</span>
+                            <span class="item-status status-damaged">Minor Damage</span>
+                        </li>
+                        <li class="inventory-item staggered-item">
+                            <i class="fas fa-lightbulb"></i>
+                            <span class="item-name">Study Lamp</span>
+                            <span class="item-status">Good Condition</span>
+                        </li>
+                        <li class="inventory-item staggered-item">
+                            <i class="fas fa-book"></i>
+                            <span class="item-name">Bookshelf</span>
+                            <span class="item-status">Good Condition</span>
+                        </li>
+                        <li class="inventory-item staggered-item">
+                            <i class="fas fa-wifi"></i>
+                            <span class="item-name">Wi-Fi Access Point</span>
+                            <span class="item-status">Good Condition</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+            authDomain: "learningproject1-8cd8a.firebaseapp.com",
+            databaseURL: "https://learningproject1-8cd8a-default-rtdb.firebaseio.com/",
+            projectId: "learningproject1-8cd8a",
+            storageBucket: "learningproject1-8cd8a.appspot.com",
+            messagingSenderId: "111895053885",
+            appId: "1:111895053885:web:63928897a46241ed2ecc54",
+            measurementId: "G-DH8QVL8EG5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const rollno = sessionStorage.getItem("stu_signin_rollno");
+        
+        // Set default text for all fields
+        const personalElements = [
+            "username", "rollNumber", "regdNumber", "email", "gender", "mobile"
+        ];
+        personalElements.forEach(id => {
+            document.getElementById(id).innerText = "Not Available";
+        });
+        
+        const roomElements = [
+            "building", "roomNumber", "bed", "assignedAt"
+        ];
+        roomElements.forEach(id => {
+            document.getElementById(id).innerText = "Not Available";
+        });
+        
+        if (rollno) {
+            // Update welcome message with roll number
+            document.getElementById("student-roll").innerText = rollno;
+            
+            const dbRef = ref(db);
+            
+            // Fetch personal details
+            get(child(dbRef, `student_register/${rollno}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const student = snapshot.val();
+                    document.getElementById("username").innerText = student.username || "Not Available";
+                    document.getElementById("rollNumber").innerText = student.rollNumber || "Not Available";
+                    document.getElementById("regdNumber").innerText = student.regdNumber || "Not Available";
+                    document.getElementById("email").innerText = student.email || "Not Available";
+                    document.getElementById("gender").innerText = student.gender || "Not Available";
+                    document.getElementById("mobile").innerText = student.mobile || "Not Available";
+                }
+            }).catch((error) => {
+                console.error("Error fetching student data:", error);
+            });
+            
+            // Fetch room details
+            get(child(dbRef, `student_rooms/${rollno}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const roomData = snapshot.val();
+                    document.getElementById("building").innerText = roomData.building || "Not Available";
+                    document.getElementById("roomNumber").innerText = roomData.room || "Not Available";
+                    document.getElementById("bed").innerText = roomData.bed || "Not Available";
+                    
+                    // Format the date for better readability
+                    if (roomData.assignedAt) {
+                        const assignedDate = new Date(roomData.assignedAt);
+                        document.getElementById("assignedAt").innerText = assignedDate.toLocaleDateString();
+                    } else {
+                        document.getElementById("assignedAt").innerText = "Not Available";
+                    }
+                } else {
+                    console.log("No room data found for this student");
+                }
+            }).catch((error) => {
+                console.error("Error fetching room data:", error);
+            });
+        } else {
+            console.error("No roll number found in session storage");
+            document.getElementById("student-roll").innerText = "Student";
+        }
+        
+        // Animation for staggered items
+        document.addEventListener('DOMContentLoaded', () => {
+            const staggeredItems = document.querySelectorAll('.staggered-item');
+            
+            staggeredItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('animate-fade-in');
+                }, 100 * index);
+            });
+            
+            // Back button functionality
+            document.getElementById('back-button').addEventListener('click', () => {
+                window.location.href = 'studashboard.html';
+            });
+            
+            // Print functionality
+            document.getElementById('print-profile').addEventListener('click', () => {
+                window.print();
+            });
+        });
+    </script>
+</body>
+</html>

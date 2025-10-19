@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelEase - Student Room Details</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        /* Changed from solid color to a gradient background */
+        background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea);
+        background-attachment: fixed;
+    }
+    
+    .main-room {
+        margin-left: 140px;
+        padding: 10px;
+    }
+    
+    .container {
+        width: 90%;
+        margin: 0 auto;
+        padding: 20px;
+        /* Changed container background to be slightly transparent */
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        margin-top: 30px;
+        /* Added subtle border */
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    p, h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    table, th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+    }
+    
+    th {
+        background-color: #150067;
+        color: white;
+        cursor: pointer;
+    }
+    
+    th:hover {
+        background-color: #0e0048;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    
+    tr:hover {
+        background-color: #e0e0e0;
+    }
+    
+    .search-container {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 10px;
+        width: 100%;
+    }
+    
+    .search-input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    
+    .search-button {
+        padding: 10px 15px;
+        background-color: #150067;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    .search-button:hover {
+        background-color: #0e0048;
+    }
+    
+    .clear-button, .export-button {
+        padding: 10px 15px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    .clear-button {
+        background-color: #95a5a6;
+    }
+    
+    .clear-button:hover {
+        background-color: #7f8c8d;
+    }
+    
+    .export-button {
+        background-color: #27ae60;
+    }
+    
+    .export-button:hover {
+        background-color: #219955;
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 20px;
+        color: #7f8c8d;
+        font-style: italic;
+    }
+    
+    .highlight {
+        background-color: #fff9c4;
+        font-weight: bold;
+    }
+    
+    .action-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: flex-end;
+    }
+    
+    .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding: 15px;
+        /* Modified filter container background */
+        background-color: rgba(249, 249, 249, 0.8);
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+    
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        min-width: 150px;
+    }
+    
+    .filter-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+    
+    .filter-group select {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    
+    .apply-filters {
+        background-color: #150067;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .apply-filters:hover {
+        background-color: #0e0048;
+    }
+    
+    .reset-filters {
+        background-color: #95a5a6;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .reset-filters:hover {
+        background-color: #7f8c8d;
+    }
+    
+    .stats-container {
+        margin-bottom: 20px;
+        padding: 15px;
+        /* Modified stats container background */
+        background-color: rgba(240, 248, 255, 0.8);
+        border-radius: 5px;
+        border: 1px solid #b3d9ff;
+    }
+    
+    .stats-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #150067;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    
+    .stat-item {
+        padding: 10px;
+        background-color: white;
+        border-radius: 5px;
+        text-align: center;
+        /* Added subtle shadow to stat items */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #150067;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 14px;
+    }
+    
+    /* Added sidebar styling to match new background */
+    .sidebar {
+        background: linear-gradient(180deg, #0a0035, #150067);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    @media (max-width: 768px) {
+        .main-room {
+            margin-left: 0;
+            padding: 5px;
+        }
+        
+        .container {
+            width: 95%;
+            padding: 10px;
+        }
+        
+        .search-container, .filter-container, .action-container {
+            flex-direction: column;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        table {
+            display: block;
+            overflow-x: auto;
+        }
+    }
+    </style>
+</head>    
+<body>
+
+<div class="sidebar">
+    <div class="logo"></div>
+    <ul class="menu">
+        <li><a href="admindashboard.html"><i class='bx bxs-user-circle'></i><span>Dashboard</span></a></li>
+        <li><a href="admin_statistics.html"><i class='bx bx-stats'></i><span>Statistics</span></a></li>
+        <li><a href="room_hubb.html"><i class='bx bx-info-circle'></i><span>Room Hub</span></a></li>
+        <li><a href="admin_guidelines.html"><i class='bx bx-info-circle'></i><span>Guidelines</span></a></li>
+    </ul>
+</div>  
+
+<div class="main-room">
+    <div class="container">
+        <h1>Student Room Details</h1>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="Search by roll number (23CSE209) or name..." />
+            <button id="search-button" class="search-button">Search</button>
+            <button id="clear-button" class="clear-button">Clear</button>
+        </div>
+        
+        <!-- New Filter Section -->
+        <div class="filter-container">
+            <div class="filter-group">
+                <label for="block-filter">Block</label>
+                <select id="block-filter">
+                    <option value="">All Blocks</option>
+                    <!-- Will be populated dynamically -->
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="gender-filter">Gender</label>
+                <select id="gender-filter">
+                    <option value="">All</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            
+            <div class="filter-buttons">
+                <button id="apply-filters" class="apply-filters">Apply Filters</button>
+                <button id="reset-filters" class="reset-filters">Reset</button>
+            </div>
+        </div>
+        
+        <!-- Stats Section -->
+        <div class="stats-container">
+            <div class="stats-title">Room Occupancy Stats</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="total-students">0</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="male-students">0</div>
+                    <div class="stat-label">Male Students</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="female-students">0</div>
+                    <div class="stat-label">Female Students</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="total-blocks">0</div>
+                    <div class="stat-label">Blocks</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-container">
+            <button id="export-button" class="export-button">Export to CSV</button>
+        </div>
+        
+        <table id="studentDetailsTable">
+            <thead>
+                <tr>
+                    <th data-sort="block">Block</th>
+                    <th data-sort="room">Room</th>
+                    <th data-sort="rollNo">Roll Number</th>
+                    <th data-sort="regdNumber">Registration Number</th>
+                    <th data-sort="username">Name</th>
+                    <th data-sort="email">Email</th>
+                    <th data-sort="gender">Gender</th>                
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        
+        <div id="no-results" class="no-results" style="display: none;">
+            No students found matching your search criteria.
+        </div>
+        
+        <p>&copy; 2024 HostelEase. All rights reserved.</p>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+        authDomain: "learningproject1-8cd8a.firebaseapp.com",
+        databaseURL: "https://learningproject1-8cd8a-default-rtdb.firebaseio.com/",
+        projectId: "learningproject1-8cd8a",
+        storageBucket: "learningproject1-8cd8a.appspot.com",
+        messagingSenderId: "111895053885",
+        appId: "1:111895053885:web:63928897a46241ed2ecc54",
+        measurementId: "G-DH8QVL8EG5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Store all student room data
+    let allStudentRooms = [];
+    let currentDisplayData = [];
+    
+    // Sorting state
+    let currentSortColumn = '';
+    let currentSortDirection = 'asc';
+    
+    // Filters state
+    let activeFilters = {
+        block: '',
+        gender: '',
+        searchTerm: ''
+    };
+// Replace the loadStudentDetails function with this modified version
+function loadStudentDetails() {
+    const tableBody = document.getElementById("studentDetailsTable").getElementsByTagName("tbody")[0];
+    const noResultsDiv = document.getElementById("no-results");
+    const studentRef = ref(db, "student_register");
+    const studentRoomRef = ref(db, "student_rooms");
+    const roomsRef = ref(db, "rooms");
+
+    // Get all data concurrently
+    Promise.all([
+        get(studentRef),
+        get(studentRoomRef),
+        get(roomsRef)
+    ]).then(([studentSnap, studentRoomSnap, roomsSnap]) => {
+        if (studentSnap.exists()) {
+            const students = studentSnap.val();
+            const studentRooms = studentRoomSnap.exists() ? studentRoomSnap.val() : {};
+            const rooms = roomsSnap.exists() ? roomsSnap.val() : {};
+            
+            allStudentRooms = []; // Reset the array
+            tableBody.innerHTML = ''; 
+            
+            // For populating block filter dropdown
+            const blockSet = new Set();
+            
+            // For stats
+            let maleCount = 0;
+            let femaleCount = 0;
+
+            // Process all students with room assignments
+            for (const rollNo in studentRooms) {
+                const student = students[rollNo];
+                const roomAssignment = studentRooms[rollNo];
+                
+                if (student && roomAssignment) {
+                    const building = roomAssignment.building;
+                    const room = roomAssignment.room;
+                    blockSet.add(building);
+                    
+                    // Store student room data for filtering
+                    allStudentRooms.push({
+                        block: building,
+                        room: room,
+                        rollNo: rollNo,
+                        regdNumber: student.regdNumber || 'N/A',
+                        username: student.username || student.name, // Use username or name field
+                        email: student.email || 'N/A',
+                        gender: student.gender || 'N/A'
+                    });
+                    
+                    // Update gender counts
+                    if (student.gender === 'Male') maleCount++;
+                    if (student.gender === 'Female') femaleCount++;
+                }
+            }
+            
+            // Populate block filter
+            const blockFilter = document.getElementById('block-filter');
+            blockFilter.innerHTML = '<option value="">All Blocks</option>';
+            
+            Array.from(blockSet).sort().forEach(block => {
+                const option = document.createElement('option');
+                option.value = block;
+                option.textContent = block.replace('Building', 'Building '); // Format display name
+                blockFilter.appendChild(option);
+            });
+            
+            // Update stats
+            document.getElementById('total-students').textContent = allStudentRooms.length;
+            document.getElementById('male-students').textContent = maleCount;
+            document.getElementById('female-students').textContent = femaleCount;
+            document.getElementById('total-blocks').textContent = blockSet.size;
+            
+            // Display all students initially
+            displayStudentRooms(allStudentRooms);
+            
+            if (allStudentRooms.length === 0) {
+                noResultsDiv.style.display = 'block';
+                noResultsDiv.textContent = "No student room assignments available.";
+            } else {
+                noResultsDiv.style.display = 'none';
+            }
+        } else {
+            noResultsDiv.style.display = 'block';
+            noResultsDiv.textContent = "No student data available.";
+        }
+    }).catch(error => {
+        console.error("Error fetching data:", error);
+        noResultsDiv.style.display = 'block';
+        noResultsDiv.textContent = "Error loading student room details. Please try again later.";
+    });
+}
+    // Function to apply all active filters
+    function applyFilters() {
+        let filteredData = [...allStudentRooms];
+        
+        // Apply block filter
+        if (activeFilters.block) {
+            filteredData = filteredData.filter(data => data.block === activeFilters.block);
+        }
+        
+        // Apply gender filter
+        if (activeFilters.gender) {
+            filteredData = filteredData.filter(data => data.gender === activeFilters.gender);
+        }
+        
+        // Apply search term filter
+        if (activeFilters.searchTerm) {
+            const searchTerm = activeFilters.searchTerm.toLowerCase();
+            const isRollNumberSearch = /^\d{2}[a-z]{3}\d{3}$/i.test(searchTerm);
+            
+            filteredData = filteredData.filter(data => {
+                const rollNo = (data.rollNo || '').toLowerCase();
+                const username = (data.username || '').toLowerCase();
+                
+                if (isRollNumberSearch) {
+                    return rollNo.includes(searchTerm);
+                }
+                
+                return rollNo.includes(searchTerm) || username.includes(searchTerm);
+            });
+        }
+        
+        displayStudentRooms(filteredData, activeFilters.searchTerm);
+    }
+    
+    function sortStudentData(data, column, direction) {
+        return [...data].sort((a, b) => {
+            const aValue = (a[column] || '').toString().toLowerCase();
+            const bValue = (b[column] || '').toString().toLowerCase();
+            
+            if (!isNaN(aValue) && !isNaN(bValue)) {
+                return direction === 'asc' 
+                    ? parseFloat(aValue) - parseFloat(bValue)
+                    : parseFloat(bValue) - parseFloat(aValue);
+            }
+            
+            if (direction === 'asc') {
+                return aValue.localeCompare(bValue);
+            } else {
+                return bValue.localeCompare(aValue);
+            }
+        });
+    }
+    
+    function displayStudentRooms(studentRooms, searchTerm = '') {
+        const tableBody = document.getElementById("studentDetailsTable").getElementsByTagName("tbody")[0];
+        const noResultsDiv = document.getElementById("no-results");
+        tableBody.innerHTML = '';
+        
+        if (studentRooms.length === 0) {
+            noResultsDiv.style.display = 'block';
+            noResultsDiv.textContent = "No students found matching your search criteria.";
+            return;
+        }
+        
+        noResultsDiv.style.display = 'none';
+        
+        if (currentSortColumn) {
+            studentRooms = sortStudentData(studentRooms, currentSortColumn, currentSortDirection);
+        }
+        
+        currentDisplayData = [...studentRooms];
+        const highlightMatch = (text, term) => {
+            if (!term || !text) return text || 'N/A';
+            
+            text = String(text);
+            const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        };
+        
+        studentRooms.forEach(data => {
+            const row = document.createElement("tr");
+            
+            row.innerHTML = `
+                <td>${data.block}</td>
+                <td>${data.room}</td>
+                <td>${searchTerm ? highlightMatch(data.rollNo, searchTerm) : data.rollNo}</td>
+                <td>${data.regdNumber}</td>
+                <td>${searchTerm ? highlightMatch(data.username, searchTerm) : data.username}</td>
+                <td>${data.email}</td>
+                <td>${data.gender}</td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+    }    
+    function exportTableToCSV(filename) {
+        if (currentDisplayData.length === 0) {
+            alert('No data to export.');
+            return;
+        }
+        
+        const headers = ['Block', 'Room', 'Roll Number', 'Registration Number', 'Name', 'Email', 'Gender'];        
+        let csvContent = headers.join(',') + '\n';
+        currentDisplayData.forEach(data => {
+            const row = [
+                `"${data.block}"`,
+                `"${data.room}"`,
+                `"${data.rollNo}"`,
+                `"${data.regdNumber}"`,
+                `"${data.username}"`,
+                `"${data.email}"`,
+                `"${data.gender}"`
+            ];
+            csvContent += row.join(',') + '\n';
+        });
+        
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        
+        const link = document.createElement('a');
+        
+        const url = URL.createObjectURL(blob);        
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);        
+        link.click();        
+        document.body.removeChild(link);
+    }
+    function setupSorting() {
+        const headers = document.querySelectorAll('#studentDetailsTable th[data-sort]');
+        
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const column = header.getAttribute('data-sort');                
+                headers.forEach(h => {
+                    h.classList.remove('sort-asc', 'sort-desc');
+                });                
+                if (column === currentSortColumn) {
+                    currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSortColumn = column;
+                    currentSortDirection = 'asc';
+                }                
+                header.classList.add(`sort-${currentSortDirection}`);                
+                displayStudentRooms(currentDisplayData, activeFilters.searchTerm);
+            });
+        });
+    }
+    window.onload = function() {
+        loadStudentDetails();
+        setupSorting();        
+        document.getElementById('search-button').addEventListener('click', () => {
+            const searchTerm = document.getElementById('search-input').value;
+            activeFilters.searchTerm = searchTerm;
+            applyFilters();
+        });
+        
+        document.getElementById('search-input').addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                const searchTerm = document.getElementById('search-input').value;
+                activeFilters.searchTerm = searchTerm;
+                applyFilters();
+            }
+        });
+        
+        document.getElementById('clear-button').addEventListener('click', () => {
+            document.getElementById('search-input').value = '';
+            activeFilters.searchTerm = '';
+            applyFilters();
+        });
+        
+        document.getElementById('apply-filters').addEventListener('click', () => {
+            activeFilters.block = document.getElementById('block-filter').value;
+            activeFilters.gender = document.getElementById('gender-filter').value;
+            applyFilters();
+        });
+        
+        document.getElementById('reset-filters').addEventListener('click', () => {
+            document.getElementById('block-filter').value = '';
+            document.getElementById('gender-filter').value = '';
+            
+            activeFilters = {
+                block: '',
+                gender: '',
+                searchTerm: activeFilters.searchTerm // Keep the search term
+            };
+            applyFilters();
+        });        
+        document.getElementById('export-button').addEventListener('click', () => {
+            const date = new Date().toISOString().slice(0, 10);
+            exportTableToCSV(`student_room_details_${date}.csv`);
+        });
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    background: linear-gradient(135deg, #f2f6fc, #d9e7ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+.wrapper {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.login_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login-header {
+    margin-bottom: 30px;
+}
+.login-header span {
+    font-size: 26px;
+    font-weight: 600;
+    color: #333;
+}
+.input_box {
+   position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.input-field {
+    width: 100%;
+    padding: 15px 45px 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    transition: 0.3s ease;
+    font-size: 16px;
+    color: #333;
+}
+.input-field:focus {
+    border-color: #5c6bc0;
+    box-shadow: 0 0 8px rgba(63, 81, 181, 0.5);
+    outline: none;
+}
+.label {
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    transition: 0.3s;
+    color: #999;
+}
+.input-field:focus ~ .label,
+.input-field:not(:placeholder-shown) ~ .label {
+    top: -10px;
+    left: 20px;
+    font-size: 12px;
+    background: white;
+    padding: 0 5px;
+    color: #5c6bc0;
+}
+.icon {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    color: #999;
+    font-size: 20px;
+}
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.remember-me label {
+    cursor: pointer;
+}
+.forgot a {
+    text-decoration: none;
+    color: #5c6bc0;
+    transition: color 0.3s ease;
+}
+.forgot a:hover {
+    color: #3f51b5;
+}
+.input-submit {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(145deg, #3a57e8, #a3bffa);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+.input-submit:hover {
+    background: linear-gradient(145deg,#a3bffa, #3a57e8);
+    transform: translateY(-2px); 
+}
+.register {
+    text-align: center;
+    font-size: 14px;
+}
+.register a {
+    color: #5c6bc0;
+    text-decoration: none;
+    font-weight: 500;
+}
+.register a:hover {
+    color: #3f51b5;
+    text-decoration: underline;
+}
+@media (max-width: 768px) {
+    .wrapper {
+        padding: 30px;
+        width: 90%;
+    }
+    .login-header span {
+        font-size: 22px;
+    }
+    .input-field {
+        font-size: 14px;
+    }
+    .input-submit {
+        font-size: 14px;
+        padding: 12px;
+    }
+}
+.register-header {
+    color: #3d3d3d;
+    border-bottom: 2px solid #ddd;
+    padding: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 25px;
+}

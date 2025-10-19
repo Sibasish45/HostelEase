@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Hostel Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('./brick_wall.avif');
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        header {
+            background-image: linear-gradient(to right, #000000, #003575);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .about-content {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .image-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .hostel-image {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .text-container {
+            flex: 2;
+        }
+        h2 {
+            color: #271581;
+        }
+        .contact-info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .back-button {
+            position: fixed;
+            top: 40px;
+            left: 20px;
+            padding: 12px 20px;
+            background-image: linear-gradient(to right, #000000, #003575);
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background-image: linear-gradient(to right, #003575, #000000);
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+            color: white;
+            background-image: linear-gradient(to right, #000000, #003575);
+        }
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>About Us</h1>
+        </header>
+        
+        <section class="about-content">
+            <div class="image-container">
+                <img src="hostelstudy-Photoroom.png" alt="Hostel Image" class="hostel-image">
+            </div>
+            <div class="text-container">
+                <h2>Welcome to Our Hostel Management System</h2>
+                <p>Our Hostel Management System is designed to make student accommodation seamless and efficient. Whether you are a student or an administrator, our system ensures that all hostel-related tasks are easily managed through a user-friendly interface.</p>
+                <p>Our team is committed to providing the best experience for both students and administrators by simplifying hostel bookings, student management, and daily operations. We aim to create a safe, secure, and comfortable living environment for everyone in the hostel community.</p>
+                <p>Feel free to contact us if you have any questions or require assistance. We are always here to help!</p>
+            </div>
+        </section>
+        <section class="contact-info">
+            <h2>Contact Information</h2>
+            <p><strong>Address:</strong> Hostel Colony, GIETU, Gunpur</p>
+            <p><strong>Phone:</strong> +727-728-4040</p>
+            <p><strong>Email:</strong> support@hostelease.com</p>
+        </section>
+        <footer>
+            <p>&copy; 2025 Hostel Management System. All Rights Reserved.</p>
+        </footer>
+    </div>
+    <a href="index.html" class="back-button">← Back</a>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Contact Information</title>
+    <style>
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .page-transition {
+            animation: slideInRight 0.8s ease-out;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            position: relative;
+            background: #f5f5f5;
+        }
+
+        body::after {
+            content: "HostelEase";
+            position: absolute;
+            top: 8%;
+            left: 85%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            font-weight: bold;
+            color: #003575;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+    
+        .sidebar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            height: 100vh;
+            padding: 0 1.7rem;
+            color: #fff;
+            overflow: hidden;
+            transition: all 0.5s linear;
+            background-image: linear-gradient(to right ,#000000, #003575);
+        }
+        
+        .sidebar:hover {
+            width: 240px;
+            transition: 0.5s;
+        }
+        
+        .logo {
+            height: 88px;
+            padding: 16px;
+        }
+        
+        .menu {
+            height: 88%;
+            position: relative;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .menu li {
+            padding: 1rem;
+            margin: 0px 0;
+            border-radius: 10px;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .menu li:hover,
+        .active {
+            background: #e0e0e058;
+        }
+        
+        .menu a {
+            color: #fff;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .menu a span {
+            overflow: hidden;
+        }
+        
+        .menu a i {
+            font-size: 1.2rem;
+        }
+        /* Main Content Styles */
+        .main-contact {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 30px;
+            animation: slideInRight 0.8s ease-out;
+            max-width: 1200px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #003575;
+            position: relative;
+        }
+
+        h2::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: #003575;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Accordion Styles */
+        .accordion {
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            margin-bottom: 15px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .accordion-header {
+            background: linear-gradient(to right, #003575, #00509e);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 16px 20px;
+            cursor: pointer;
+            border: none;
+            text-align: left;
+            width: 100%;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .accordion-header:hover {
+            background: #00509e;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .accordion-content p {
+            margin: 10px 0;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .accordion-content strong {
+            color: #003575;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+    </style>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar - Unchanged -->
+    <div class="sidebar">
+        <div class="logo"></div>
+        <ul class="menu">
+            <li>
+                <a href="studashboard.html">
+                    <i class='bx bxs-user-circle'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="statistics.html">
+                    <i class='bx bx-stats'></i>
+                    <span>Statistics</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="contact.html">
+                    <i class='bx bx-phone'></i>
+                    <span>Emergency Contact</span>
+                </a>
+            </li>
+            <li>
+                <a href="guidelines1.html">
+                    <i class='bx bx-info-circle'></i>
+                    <span>Guidelines</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-contact page-transition">
+        <h2>Emergency Contact Information</h2>
+        <div class="accordion">
+            <!-- Accordion Items -->
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <i class='bx bx-user-voice' style="margin-right: 10px; font-size: 20px;"></i>
+                    Warden
+                </button>
+                <div class="accordion-content">
+                    <p><strong>Name:</strong> Mr. Rajesh Kumar</p>
+                    <p><strong>Phone:</strong> +91 9025481368</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <i class='bx bx-user-check' style="margin-right: 10px; font-size: 20px;"></i>
+                    Head Warden
+                </button>
+                <div class="accordion-content">
+                    <p><strong>Name:</strong> Mrs. Sunita Sharma</p>
+                    <p><strong>Phone:</strong> +91 9911223344</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <i class='bx bx-building-house' style="margin-right: 10px; font-size: 20px;"></i>
+                    Hostel In-charge - Block 1
+                </button>
+                <div class="accordion-content">
+                    <p><strong>Name:</strong> Mr. Anil Gupta</p>
+                    <p><strong>Phone:</strong> +91 9876543210</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <i class='bx bx-building-house' style="margin-right: 10px; font-size: 20px;"></i>
+                    Hostel In-charge - Block 2
+                </button>
+                <div class="accordion-content">
+                    <p><strong>Name:</strong> Mrs. Priya Mehta</p>
+                    <p><strong>Phone:</strong> +91 9888776655</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <i class='bx bx-building-house' style="margin-right: 10px; font-size: 20px;"></i>
+                    Hostel In-charge - Block 3
+                </button>
+                <div class="accordion-content">
+                    <p><strong>Name:</strong> Mr. Tarakh Mehta</p>
+                    <p><strong>Phone:</strong> +91 9888776655</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <i class='bx bx-building-house' style="margin-right: 10px; font-size: 20px;"></i>
+                    Hostel In-charge - Block 4
+                </button>
+                <div class="accordion-content">
+                    <p><strong>Name:</strong> Mr. Raju Raina</p>
+                    <p><strong>Phone:</strong> +91 9888776655</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Sign out function
+        function signOut() {
+            console.log("Signing out...");
+            window.history.replaceState(null, null, 'index.html');
+            window.location.href = 'index.html';
+        }
+
+        // Accordion functionality
+        const accordionHeaders = document.querySelectorAll(".accordion-header");
+        accordionHeaders.forEach(header => {
+            header.addEventListener("click", () => {
+                const content = header.nextElementSibling;
+                // Close all other accordion items
+                document.querySelectorAll(".accordion-content").forEach(item => {
+                    if (item !== content) {
+                        item.style.display = "none";
+                    }
+                });
+                content.style.display = content.style.display === "block" ? "none" : "block";
+            });
+        });
+    </script>
+</body>
+</html>

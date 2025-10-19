@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="!!!admindash.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .sidebar {
+      background-image: linear-gradient(to right, #000000, #003575);
+    }
+    .sidebar a {
+      color: white;
+    }
+    .sidebar a:hover {
+      background-color: #555;
+    }
+
+    .sidebar .menu li {
+      text-align: center;
+    }
+
+    .sidebar .bx {
+      color: white;
+    }
+
+    .main-content {
+      background-color: white;
+      padding: 20px;
+    }
+
+    .dashboard-cards {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .content-box, .content-box1, .content-box2 {
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      flex: 1;
+      min-width: 200px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    .content-box a, .content-box1 a, .content-box2 a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .role-info {
+      background-color: #f0f0f5;
+      padding: 15px;
+    }
+  .dashboard-cards span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 20px;
+    color: white;
+  }
+
+  .dashboard-cards p {
+    font-size: 10px;
+  }
+
+  .separator {
+    width: 100%;
+    height: 2px;
+    background-color: #ccc;
+    margin: 10px 0;
+  }
+  .dashboard-cards {
+  display: flex;
+  gap: 15px;
+  flex-wrap: nowrap; 
+  justify-content: space-between;
+}
+.content-box, .content-box1, .content-box2 {
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 200px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 10px;
+}
+.separator {
+  display: none; 
+}
+
+  </style>
+</head>
+<body>
+
+  <nav class="sidebar" id="sidebar">
+    <div class="logo">
+      <ul class="menu">
+        <li>
+          <a href="admindashboard.html">
+            <i class='bx bxs-user-circle'></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin_statistics.html">
+            <i class='bx bx-stats'></i>
+            <span>Statistics</span>
+          </a>
+        </li>
+        <li>
+          <a href="room_hubb.html">
+            <i class='bx bx-info-circle'></i>
+            <span>Room Hub</span>
+          </a>
+        </li>
+        <li>
+          <a href="guidelines1.html">
+            <i class='bx bx-info-circle'></i>
+            <span>Guidelines</span>
+          </a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" onclick="signOut()">
+            <i class='bx bx-log-out'></i>
+            <span>Sign Out</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="wrapper">
+    <div class="main-content">
+      <div class="dashboard-header">
+      </div>
+      <div class="dashboard-cards">
+        <a href="addstudent.html" class="content-box">
+          <i class="uil uil-user-plus"></i>
+          <span>➕ Add Student</span>
+          <p>Maintain Student Details and contact information.</p>
+        </a>
+        <div class="separator"></div>
+      
+        <a href="view student.html" class="content-box1">
+          <i class="uil uil-file-alt"></i>
+          <span>📂 View Student Details</span>
+          <p>Check the details of students.</p>
+        </a>
+        <div class="separator"></div>
+      
+        <a href="allot room.html" class="content-box2">
+          <i class="uil uil-key-skeleton"></i>
+          <span>🏠 Allot Student</span>
+          <p>Allot the students.</p>
+        </a>
+        <div class="separator"></div> 
+        <a href="admin_profile.html" class="content-box">
+          <i class='bx bxs-user'></i>
+          <span>Admin Profile</span>
+          <p>View your profile.</p>
+        </a>
+      </div>  
+      <div class="role-info">
+        <h3>Role of Admin in Hostel Management</h3>
+        <p>As an admin in the Hostel Management System, your key responsibilities include:</p>
+        <ul>
+          <li><strong>Managing Student Information:</strong> Adding, updating, and maintaining student records.</li>
+          <li><strong>Room Allocation:</strong> Assigning and managing room allocations for students.</li>
+          <li><strong>Notice Management:</strong> Posting important notices and updates to inform students.</li>
+          <li><strong>Handling Applications:</strong> Reviewing and processing student applications and requests.</li>
+          <li><strong>Resolving Issues:</strong> Addressing and resolving issues or complaints raised by students.</li>
+        </ul>
+        <p>Ensure efficient hostel operations and provide students with a smooth experience.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+     function signOut() {
+      console.log("Signing out..."); 
+      window.history.replaceState(null, null, 'index.html'); 
+      window.location.href = 'index.html'; 
+    }
+  </script>
+</body>
+</html>

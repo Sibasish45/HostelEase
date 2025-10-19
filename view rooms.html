@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Room Assignments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .table-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-container">
+            <h2>Room Details</h2>
+            <table id="roomTable">
+                <thead>
+                    <tr>
+                        <th>Block</th>
+                        <th>Room</th>
+                        <th>Roll Number</th>
+                        <th>Student Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+            authDomain: "learningproject1-8cd8a.firebaseapp.com",
+            databaseURL: "https://learningproject1-8cd8a-default-rtdb.firebaseio.com/",
+            projectId: "learningproject1-8cd8a",
+            storageBucket: "learningproject1-8cd8a.appspot.com",
+            messagingSenderId: "111895053885",
+            appId: "1:111895053885:web:63928897a46241ed2ecc54",
+            measurementId: "G-DH8QVL8EG5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        function loadRoomDetails() {
+            const tableBody = document.getElementById("roomTable").getElementsByTagName("tbody")[0];
+            const roomsRef = ref(db, "rooms");
+
+            get(roomsRef).then(snapshot => {
+                if (snapshot.exists()) {
+                    const rooms = snapshot.val();
+                    tableBody.innerHTML = '';
+
+                    for (const block in rooms) {
+                        for (const room in rooms[block]) {
+                            const roomData = rooms[block][room];
+                            const row = document.createElement("tr");
+
+                            const blockCell = document.createElement("td");
+                            blockCell.textContent = block;
+                            row.appendChild(blockCell);
+
+                            const roomCell = document.createElement("td");
+                            roomCell.textContent = room;
+                            row.appendChild(roomCell);
+
+                            const rollCell = document.createElement("td");
+                            rollCell.textContent = roomData.rollNo || "Vacant";
+                            row.appendChild(rollCell);
+
+                            const studentNameCell = document.createElement("td");
+                            studentNameCell.textContent = roomData.studentName || "N/A";
+                            row.appendChild(studentNameCell);
+
+                            tableBody.appendChild(row);
+                        }
+                    }
+                } else {
+                    tableBody.innerHTML = "<tr><td colspan='4'>No room assignments found.</td></tr>";
+                }
+            }).catch(error => console.error("Error fetching room data:", error));
+        }
+
+        window.onload = loadRoomDetails;
+    </script>
+</body>
+</html>

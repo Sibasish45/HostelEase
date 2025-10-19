@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dormitory Room Assignment System</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --tertiary-color: #ecf0f1;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: var(--tertiary-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #ddd;
+            border-radius: 8px 8px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .form-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, button, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* IMPROVED ROOM STATUS STYLING */
+        .room-status {
+            margin-top: 20px;
+        }
+        
+        .building-container {
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .building-title {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        .room-card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .room-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .room-number {
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .room-vacant {
+            background-color: #ebfaf0;
+            border-color: #c8e6d0;
+        }
+        
+        .room-occupied {
+            background-color: #fdf0ef;
+            border-color: #f5d0cc;
+        }
+        
+        .room-partial {
+            background-color: #fef9e7;
+            border-color: #faecc2;
+        }
+        
+        .bed-status {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .bed {
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.95em;
+        }
+        
+        .bed.vacant {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+        
+        .bed.occupied {
+            background-color: #fadbd8;
+            color: #c0392b;
+        }
+        
+        .occupant-name {
+            font-size: 0.9em;
+            font-weight: normal;
+            margin-top: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .status-legend {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+        
+        .legend-vacant {
+            background-color: #ebfaf0;
+            border: 1px solid #c8e6d0;
+        }
+        
+        .legend-partial {
+            background-color: #fef9e7;
+            border: 1px solid #faecc2;
+        }
+        
+        .legend-occupied {
+            background-color: #fdf0ef;
+            border: 1px solid #f5d0cc;
+        }
+        
+        /* Other styles remain the same */
+        .message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .error {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .student-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .student-info-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .student-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        
+        .student-detail-item {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .remove-assignment {
+            background-color: var(--error-color);
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .rooms-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                padding: 15px;
+                gap: 10px;
+            }
+            
+            .room-card {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .rooms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-legend {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dormitory Room Assignment System</h1>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="assign">Assign Room</div>
+            <div class="tab" data-tab="status">Room Status</div>
+        </div>
+        
+        <div id="messageBox" class="message"></div>
+        
+        <!-- Assign Room Tab -->
+        <div id="assignTab" class="tab-content active">
+            <div class="form-container">
+                <h2>Assign Room to Student</h2>
+                <form id="assignRoomForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rollNumber">Roll Number</label>
+                            <input type="text" id="rollNumber" placeholder="Enter Roll Number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentName">Student Name</label>
+                            <input type="text" id="studentName" placeholder="Enter Student Name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="block">Building</label>
+                            <select id="block" required>
+                                <option value="">Select Building</option>
+                                <option value="BuildingA">Building A</option>
+                                <option value="BuildingB">Building B</option>
+                                <option value="BuildingC">Building C</option>
+                                <option value="BuildingD">Building D</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="room">Room</label>
+                            <select id="room" required>
+                                <option value="">Select Room</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bed">Bed</label>
+                            <select id="bed" required>
+                                <option value="">Select Bed</option>
+                                <option value="bed1">Bed 1</option>
+                                <option value="bed2">Bed 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit">Assign Room</button>
+                </form>
+                
+                <div id="currentAssignment" class="student-info" style="display: none;">
+                    <div class="student-info-header">Current Assignment</div>
+                    <div id="assignmentDetails" class="student-details"></div>
+                    <button id="removeAssignment" class="remove-assignment">Remove Assignment</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Room Status Tab - IMPROVED VERSION -->
+        <div id="statusTab" class="tab-content">
+            <div class="form-container">
+                <h2>Room Status</h2>
+                
+                <div class="form-group">
+                    <label for="filterBuilding">Filter by Building</label>
+                    <select id="filterBuilding">
+                        <option value="all">All Buildings</option>
+                        <option value="BuildingA">Building A</option>
+                        <option value="BuildingB">Building B</option>
+                        <option value="BuildingC">Building C</option>
+                        <option value="BuildingD">Building D</option>
+                    </select>
+                </div>
+                
+                <div class="status-legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-vacant"></div>
+                        <span>All Vacant</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-partial"></div>
+                        <span>Partially Occupied</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-occupied"></div>
+                        <span>Fully Occupied</span>
+                    </div>
+                </div>
+                
+                <div id="roomStatusContainer" class="room-status">
+                    <!-- Room status will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getDatabase, ref, get, set, child, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+            authDomain: "learningproject1-8cd8a.firebaseapp.com",
+            databaseURL: "https://learningproject1-8cd8a-default-rtdb.firebaseio.com/",
+            projectId: "learningproject1-8cd8a",
+            storageBucket: "learningproject1-8cd8a.appspot.com",
+            messagingSenderId: "111895053885",
+            appId: "1:111895053885:web:63928897a46241ed2ecc54",
+            measurementId: "G-DH8QVL8EG5"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        // DOM Elements
+        const tabButtons = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const messageBox = document.getElementById('messageBox');
+        const rollNumberInput = document.getElementById('rollNumber');
+        const currentAssignmentDiv = document.getElementById('currentAssignment');
+        const assignmentDetailsDiv = document.getElementById('assignmentDetails');
+        const removeAssignmentBtn = document.getElementById('removeAssignment');
+        
+        // Current student data
+        let currentStudentData = null;
+        
+        // Tab Functionality
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to selected tab and content
+                button.classList.add('active');
+                document.getElementById(`${tabId}Tab`).classList.add('active');
+                
+                // Load content based on tab
+                if (tabId === 'status') {
+                    loadRoomStatus('all');
+                }
+            });
+        });
+        
+        // Check if student has existing assignment when roll number changes
+        rollNumberInput.addEventListener('blur', async function() {
+            const rollNumber = this.value.trim();
+            if (rollNumber) {
+                checkStudentAssignment(rollNumber);
+            } else {
+                currentAssignmentDiv.style.display = 'none';
+                currentStudentData = null;
+            }
+        });
+        
+        // Check for student assignment
+        async function checkStudentAssignment(rollNumber) {
+            try {
+                const studentRoomRef = ref(db, `student_rooms/${rollNumber}`);
+                const snapshot = await get(studentRoomRef);
+                
+                if (snapshot.exists()) {
+                    const studentRoom = snapshot.val();
+                    currentStudentData = {
+                        rollNumber: rollNumber,
+                        building: studentRoom.building,
+                        room: studentRoom.room,
+                        bed: studentRoom.bed
+                    };
+                    
+                    // Display current assignment
+                    assignmentDetailsDiv.innerHTML = `
+                        <div class="student-detail-item"><strong>Roll Number:</strong> ${rollNumber}</div>
+                        <div class="student-detail-item"><strong>Building:</strong> ${studentRoom.building.replace('Building', 'Building ')}</div>
+                        <div class="student-detail-item"><strong>Room:</strong> ${studentRoom.room.replace('Room', 'Room ')}</div>
+                        <div class="student-detail-item"><strong>Bed:</strong> ${studentRoom.bed === 'bed1' ? 'Bed 1' : 'Bed 2'}</div>
+                    `;
+                    
+                    currentAssignmentDiv.style.display = 'block';
+                } else {
+                    currentAssignmentDiv.style.display = 'none';
+                    currentStudentData = null;
+                }
+            } catch (error) {
+                console.error("Error checking student assignment:", error);
+                showMessage("Error checking student assignment", "error");
+            }
+        }
+        
+        // Remove assignment button
+        removeAssignmentBtn.addEventListener('click', function() {
+            if (currentStudentData) {
+                removeStudentAssignment(currentStudentData.rollNumber);
+            }
+        });
+        
+        // Utility functions
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.className = `message ${type}`;
+            messageBox.style.display = 'block';
+            
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Initialize rooms in database if not exist
+        async function initializeRoomsIfNeeded() {
+            const buildings = ['BuildingA', 'BuildingB', 'BuildingC', 'BuildingD'];
+            
+            for (const building of buildings) {
+                for (let roomNum = 1; roomNum <= 10; roomNum++) {
+                    const roomId = `Room${roomNum}`;
+                    const roomRef = ref(db, `rooms/${building}/${roomId}`);
+                    
+                    const snapshot = await get(roomRef);
+                    if (!snapshot.exists()) {
+                        // Initialize room with empty beds
+                        await set(roomRef, {
+                            bed1: { status: 'vacant' },
+                            bed2: { status: 'vacant' }
+                        });
+                    }
+                }
+            }
+        }
+        
+        // Call initialization
+        initializeRoomsIfNeeded();
+        
+        // Room Assignment Form
+        document.getElementById("block").addEventListener("change", function() {
+            const building = this.value;
+            const roomSelect = document.getElementById("room");
+    
+            roomSelect.innerHTML = '<option value="">Select Room</option>';
+    
+            if (building) {
+                // Fetch available rooms from database
+                const buildingRef = ref(db, `rooms/${building}`);
+                get(buildingRef).then(snapshot => {
+                    if (snapshot.exists()) {
+                        const rooms = snapshot.val();
+                        
+                        // Add rooms to dropdown
+                        for (let i = 1; i <= 10; i++) {
+                            const roomId = `Room${i}`;
+                            const option = document.createElement("option");
+                            option.value = roomId;
+                            option.textContent = `Room ${i}`;
+                            roomSelect.appendChild(option);
+                        }
+                    }
+                });
+            }
+        });
+        
+        document.getElementById("room").addEventListener("change", function() {
+            const building = document.getElementById("block").value;
+            const room = this.value;
+            const bedSelect = document.getElementById("bed");
+            
+            bedSelect.innerHTML = '<option value="">Select Bed</option>';
+            
+            if (building && room) {
+                // Check bed availability
+                const roomRef = ref(db, `rooms/${building}/${room}`);
+                get(roomRef).then(snapshot => {
+                    if (snapshot.exists()) {
+                        const roomData = snapshot.val();
+                        
+                        // Add available beds to dropdown
+                        if (roomData.bed1?.status === 'vacant') {
+                            const option = document.createElement("option");
+                            option.value = "bed1";
+                            option.textContent = "Bed 1";
+                            bedSelect.appendChild(option);
+                        }
+                        
+                        if (roomData.bed2?.status === 'vacant') {
+                            const option = document.createElement("option");
+                            option.value = "bed2";
+                            option.textContent = "Bed 2";
+                            bedSelect.appendChild(option);
+                        }
+                        
+                        // If both beds are occupied
+                        if (roomData.bed1?.status !== 'vacant' && roomData.bed2?.status !== 'vacant') {
+                            showMessage("This room is fully occupied. Please select another room.", "warning");
+                        }
+                    }
+                });
+            }
+        });
+        
+        // Assign Room Form Submission
+        document.getElementById("assignRoomForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+    
+            const rollNumber = document.getElementById("rollNumber").value;
+            const studentName = document.getElementById("studentName").value;
+            const building = document.getElementById("block").value;
+            const room = document.getElementById("room").value;
+            const bed = document.getElementById("bed").value;
+    
+            if (!rollNumber || !studentName || !building || !room || !bed) {
+                showMessage("All fields are required!", "error");
+                return;
+            }
+       
+            // Check if student already has a room (current assignment)
+            if (currentStudentData) {
+                showMessage("This student already has a room assignment. Please remove the current assignment first.", "error");
+                return;
+            }
+    
+            try {
+                // Check if student exists in database
+                const studentRef = ref(db, `student_register/${rollNumber}`);
+                const studentSnapshot = await get(studentRef);
+                
+                // Check if student already has a room (double check)
+                const studentRoomRef = ref(db, `student_rooms/${rollNumber}`);
+                const studentRoomSnapshot = await get(studentRoomRef);
+                
+                if (studentRoomSnapshot.exists()) {
+                    showMessage("This student is already assigned to a room. Please remove the current assignment first.", "error");
+                    return;
+                }
+                
+                // Check bed availability
+                const roomRef = ref(db, `rooms/${building}/${room}`);
+                const roomSnapshot = await get(roomRef);
+                
+                if (roomSnapshot.exists()) {
+                    const roomData = roomSnapshot.val();
+                    
+                    if (roomData[bed]?.status !== 'vacant') {
+                        showMessage("This bed is already occupied. Please select another bed.", "error");
+                        return;
+                    }
+                    
+                    // Update room data
+                    const bedUpdate = {};
+                    bedUpdate[`${bed}`] = {
+                        status: 'occupied',
+                        rollNumber: rollNumber,
+                        studentName: studentName
+                    };
+                    
+                    await update(roomRef, bedUpdate);
+                    
+                    // Store student room assignment
+                    await set(studentRoomRef, {
+                        rollNumber: rollNumber,
+                        building: building,
+                        room: room,
+                        bed: bed,
+                        assignedAt: new Date().toISOString()
+                    });
+                    
+                    // If student doesn't exist in register, add them
+                    if (!studentSnapshot.exists()) {
+                        await set(studentRef, {
+                            name: studentName,
+                            rollNumber: rollNumber
+                        });
+                    }
+                    
+                    showMessage("Room successfully assigned!", "success");
+                    document.getElementById("assignRoomForm").reset();
+                    
+                    // Check for updated assignment
+                    checkStudentAssignment(rollNumber);
+                } else {
+                    showMessage("Room not found. Please try again.", "error");
+                }
+            } catch (error) {
+                showMessage("Error: " + error.message, "error");
+                console.error(error);
+            }
+        });
+        
+        // Remove student assignment
+        async function removeStudentAssignment(rollNumber) {
+            try {
+                // Get student room info
+                const studentRoomRef = ref(db, `student_rooms/${rollNumber}`);
+                const snapshot = await get(studentRoomRef);
+                
+                if (snapshot.exists()) {
+                    const studentRoom = snapshot.val();
+                    const { building, room, bed } = studentRoom;
+                    
+                    // Update room data - set bed to vacant
+                    const roomRef = ref(db, `rooms/${building}/${room}`);
+                    const bedUpdate = {};
+                    bedUpdate[`${bed}`] = {
+                        status: 'vacant'
+                    };
+                    
+                    await update(roomRef, bedUpdate);
+                    
+                    // Remove student room assignment
+                    await remove(studentRoomRef);
+                    
+                    showMessage("Room assignment removed successfully.", "success");
+                    
+                    // Clear current assignment display
+                    currentAssignmentDiv.style.display = 'none';
+                    currentStudentData = null;
+                    
+                    // Refresh room status if on that tab
+                    if (document.getElementById('statusTab').classList.contains('active')) {
+                        const buildingFilter = document.getElementById('filterBuilding').value;
+                        loadRoomStatus(buildingFilter);
+                    }
+                } else {
+                    showMessage("Student room assignment not found.", "error");
+                }
+            } catch (error) {
+                showMessage("Error: " + error.message, "error");
+                console.error(error);
+            }
+        }
+        
+        // IMPROVED Room Status Function
+        async function loadRoomStatus(buildingFilter) {
+            const statusContainer = document.getElementById('roomStatusContainer');
+            statusContainer.innerHTML = '<p>Loading room status...</p>';
+            
+            try {
+                const buildings = ['BuildingA', 'BuildingB', 'BuildingC', 'BuildingD'];
+                let html = '';
+                
+                for (const building of buildings) {
+                    if (buildingFilter !== 'all' && building !== buildingFilter) {
+                        continue;
+                    }
+                    
+                    html += `<div class="building-container">
+                        <div class="building-title">${building.replace('Building', 'Building ')}</div>
+                        <div class="rooms-grid">`;
+                    
+                    const buildingRef = ref(db, `rooms/${building}`);
+                    const snapshot = await get(buildingRef);
+                    
+                    if (snapshot.exists()) {
+                        const rooms = snapshot.val();
+                        
+                        for (let i = 1; i <= 10; i++) {
+                            const roomId = `Room${i}`;
+                            const roomData = rooms[roomId] || {
+                                bed1: { status: 'vacant' },
+                                bed2: { status: 'vacant' }
+                            };
+                            
+                            let roomStatus = 'room-vacant';
+                            if (roomData.bed1?.status === 'occupied' && roomData.bed2?.status === 'occupied') {
+                                roomStatus = 'room-occupied';
+                            } else if (roomData.bed1?.status === 'occupied' || roomData.bed2?.status === 'occupied') {
+                                roomStatus = 'room-partial';
+                            }
+                            
+                            html += `<div class="room-card ${roomStatus}">
+                                <div class="room-number">Room ${i}</div>
+                                <div class="bed-status">
+                                    <div class="bed ${roomData.bed1?.status || 'vacant'}">
+                                        <strong>Bed 1:</strong> ${roomData.bed1?.status === 'occupied' ? 
+                                            `<div class="occupant-name">${roomData.bed1?.rollNumber || 'Occupied'}</div>` : 
+                                            'Vacant'}
+                                    </div>
+                                    <div class="bed ${roomData.bed2?.status || 'vacant'}">
+                                        <strong>Bed 2:</strong> ${roomData.bed2?.status === 'occupied' ? 
+                                            `<div class="occupant-name">${roomData.bed2?.rollNumber || 'Occupied'}</div>` : 
+                                            'Vacant'}
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                    }
+                    
+                    html += `</div></div>`;
+                }
+                
+                statusContainer.innerHTML = html;
+            } catch (error) {
+                statusContainer.innerHTML = `<p>Error loading room status: ${error.message}</p>`;
+                console.error(error);
+            }
+        }
+        
+        document.getElementById('filterBuilding').addEventListener('change', function() {
+            const building = this.value;
+            loadRoomStatus(building);
+        });
+        
+        // Initial load
+        document.getElementById('filterBuilding').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>

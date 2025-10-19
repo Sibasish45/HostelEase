@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelEase - Simplifying Hostel Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --primary-light: #4285f4;
+            --primary-hover: #1565c0;
+            --secondary: #ffc107;
+            --secondary-hover: #ffb300;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        header {
+            background-color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .brand {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .brand:hover {
+            color: var(--primary-hover);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .login-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+        }
+        
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(13, 71, 161, 0.85), rgba(33, 37, 41, 0.9)), url("Adminhostel.jpg.webp");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 70px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--secondary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .announcements {
+            padding: 3rem 0;
+            background-color: var(--light);
+        }
+
+        .announcement-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .announcement-header h3 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .announcement-list {
+            list-style: none;
+        }
+
+        .announcement-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            transition: var(--transition);
+        }
+
+        .announcement-item:hover {
+            background-color: #f9f9f9;
+            padding-left: 10px;
+            border-radius: 5px;
+        }
+
+        .announcement-item:last-child {
+            border-bottom: none;
+        }
+        .announcement-date {
+            background-color: #e8f0fe;
+            color: var(--primary-dark);
+            font-size: 0.85rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .announcement-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2rem;
+            color: #6c757d;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--primary-hover);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links, .login-buttons {
+                display: none;
+            }
+
+            .nav-links.active, .login-buttons.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="brand">
+                    <i class="fas fa-building"></i> HostelEase
+                </a>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="nav-links" id="nav-links">
+                    <a href="aboutus.html">About Us</a>
+                    <a href="visitor_guideline.html">Visitor Guidelines</a>
+                </div>
+                <div class="login-buttons" id="login-buttons">
+                    <a href="stu_signin.html" class="btn btn-outline">
+                        <i class="fas fa-user-graduate"></i> Student
+                    </a>
+                    <a href="admin_signin.html" class="btn btn-primary">
+                        <i class="fas fa-user-shield"></i> Admin
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Streamline Your <span>Hostel Management</span> Experience</h1>
+                <p>HostelEase is a comprehensive hostel management system that streamlines administration, enhances student experience, and optimizes resource allocation.</p>
+            </div>
+        </div>
+    </section>
+    <section class="announcements">
+        <div class="container">
+            <div class="announcement-card">
+                <div class="announcement-header">
+                    <h3>Announcements</h3>
+                </div>
+                <ul class="announcement-list">
+                    <li class="announcement-item">
+                        <div class="announcement-content">
+                            <span class="announcement-date">March 15, 2025</span>
+                            <h4>Summer Vacation Room Clearance</h4>
+                            <p>All students must vacate their rooms by May 20th for the annual maintenance and cleaning. Storage options are available upon request.</p>
+                        </div>
+                    </li>
+                    <li class="announcement-item">
+                        <div class="announcement-content">
+                            <span class="announcement-date">March 10, 2025</span>
+                            <h4>Hostel Day Celebrations</h4>
+                            <p>Join us for the annual Hostel Day celebrations on April 5th. Various cultural events and competitions will be organized.</p>
+                        </div>
+                    </li>
+                    <li class="announcement-item">
+                        <div class="announcement-content">
+                            <span class="announcement-date">March 5, 2025</span>
+                            <h4>Wi-Fi Infrastructure Upgrade</h4>
+                            <p>The hostel network infrastructure will be upgraded on March 28th. Expect intermittent connectivity between 10 AM and 2 PM.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Education Street, Tech City</a></li>
+                    <li><a href="mailto:info@hostelease.com"><i class="fas fa-envelope"></i> info@hostelease.com</a></li>
+                    <li><a href="tel:+1234567890"><i class="fas fa-phone-alt"></i> +1 (234) 567-890</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 HostelEase. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const loginButtons = document.getElementById('login-buttons');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            loginButtons.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

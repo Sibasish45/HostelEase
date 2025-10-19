@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelEase Student Portal</title>
+    <link rel="stylesheet" href="login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <div class="content">
+            <div class="logo-container">
+                <h2><b>HostelEase</b></h2>
+                <p class="tagline">Your Hostel, Simplified</p>
+            </div>
+            <div class="features">
+                <div class="feature">
+                    <i class='bx bx-home-alt feature-icon'></i>
+                    <span>Room Management</span>
+                </div>
+                <div class="feature">
+                    <i class='bx bx-calendar-check feature-icon'></i>
+                    <span>Interactive Design</span>
+                </div>
+                <div class="feature">
+                    <i class='bx bx-food-menu feature-icon'></i>
+                    <span>Meal Planning</span>
+                </div>
+            </div>
+        </div>
+        <div class="logreg_box">
+            <div class="form_box login">
+                <form id="loginForm" action="#">
+                    <h2>Student Portal</h2>
+                    <p class="form-subtitle">Sign in to access your account</p>
+                    
+                    <div class="input_box">
+                        <span class="icon"><i class='bx bx-id-card'></i></span>
+                        <input type="text" id="Rollno" required>
+                        <label>Roll Number</label>
+                    </div>
+                    <div class="input_box">
+                        <span class="icon"><i class='bx bx-envelope'></i></span>
+                        <input type="email" id="loginEmail" required>
+                        <label>Email Address</label>
+                    </div>
+                    <div class="input_box">
+                        <span class="icon"><i class='bx bx-lock-alt'></i></span>
+                        <input type="password" id="loginPassword" required>
+                        <label>Password</label>
+                    </div>
+                    
+                    <div class="login-options">
+                        <div class="checkbox">
+                            <label><input type="checkbox">Remember Me,     ,</label>
+                        </div>
+                        <a href="#" class="forgot-password">   Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="animated-button">
+                        <span class="btn-text">Sign In</span>
+                        <i class='bx bx-right-arrow-alt btn-icon'></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <a href="index.html" class="back-button">
+        <i class='bx bx-left-arrow-alt'></i> Back to Home
+    </a>
+        <div id="terminal-loader" class="terminal-loader">
+        <div class="terminal-header">
+            <span class="terminal-title">Authenticating...</span>
+            <div class="terminal-controls">
+                <span class="control close"></span>
+                <span class="control minimize"></span>
+                <span class="control maximize"></span>
+            </div>
+        </div>
+        <div class="text">Verifying credentials...</div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+            authDomain: "learningproject1-8cd8a.firebaseapp.com",
+            databaseURL: "https://learningproject1-8cd8a-default-rtdb.firebaseio.com/",
+            projectId: "learningproject1-8cd8a",
+            storageBucket: "learningproject1-8cd8a.appspot.com",
+            messagingSenderId: "111895053885",
+            appId: "1:111895053885:web:63928897a46241ed2ecc54",
+            measurementId: "G-DH8QVL8EG5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        document.getElementById("loginForm").addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Show the loader
+            const loader = document.getElementById("terminal-loader");
+            loader.style.display = "block";
+
+            const Rollno = document.getElementById("Rollno").value;
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            const dbRef = ref(db);
+            get(child(dbRef, `student_register/${Rollno}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const user = snapshot.val();
+                    if (user.email === email && user.password === password) {
+                        sessionStorage.setItem('stu_signin_rollno', Rollno);
+                        setTimeout(() => {
+                            loader.style.display = "none";
+                            window.location.href = "studashboard.html";
+                        }, 2000);
+                    } else {
+                        loader.style.display = "none";
+                        showNotification("Invalid Roll Number or password", "error");
+                    }
+                } else {
+                    loader.style.display = "none";
+                    showNotification("No user found with this Roll Number", "error");
+                }
+            }).catch((error) => {
+                loader.style.display = "none";
+                console.error("Error logging in:", error);
+                showNotification("Login failed. Please try again.", "error");
+            });
+        });
+
+        // Notification function
+        function showNotification(message, type) {
+            const notification = document.createElement("div");
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class='bx ${type === "error" ? "bx-x-circle" : "bx-check-circle"}'></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add("show");
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove("show");
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

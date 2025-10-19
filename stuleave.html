@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Leave Application Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #dbeafe;
+            --neutral-800: #1f2937;
+            --neutral-700: #374151;
+            --neutral-500: #6b7280;
+            --neutral-300: #d1d5db;
+            --neutral-200: #e5e7eb;
+            --neutral-100: #f3f4f6;
+            --neutral-50: #f9fafb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 8px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: var(--neutral-100);
+            color: var(--neutral-800);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 2rem;
+            margin: 0 auto;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .app-header {
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+            width: 100%;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            flex: 1;
+            min-width: 300px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--neutral-800);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--neutral-700);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--radius);
+            background-color: var(--neutral-50);
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        
+        .form-control::placeholder {
+            color: var(--neutral-500);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn {
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: var(--radius);
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            color: white;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            color: var(--neutral-700);
+            background-color: var(--neutral-200);
+            border-color: var(--neutral-200);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--neutral-300);
+            border-color: var(--neutral-300);
+        }
+        
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .result-message {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .result-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+        
+        .result-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        
+        .result-error {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: var(--radius);
+            transition: background-color 0.2s ease;
+            gap: 0.5rem;
+        }
+        
+        .nav-link:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .footer {
+            margin-top: auto;
+            padding: 1.5rem 0;
+            background-color: white;
+            border-top: 1px solid var(--neutral-200);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+        }
+        
+        .loading {
+            display: none;
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--neutral-500);
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid var(--neutral-300);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .card {
+                min-width: 100%;
+            }
+            
+            .header-content, .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="app-title">Student Leave Application Portal</h1>
+            <a href="statistics.html" class="nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span>Statistics Dashboard</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-file-alt"></i>
+                    Submit Leave Application
+                </h2>
+            </div>
+            <form id="leaveForm">
+                <div class="form-group">
+                    <label for="studentName" class="form-label">Full Name</label>
+                    <input type="text" id="studentName" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rollNo" class="form-label">Roll Number</label>
+                    <input type="text" id="rollNo" class="form-control" placeholder="Enter your roll number" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="startDate" class="form-label">Leave Start Date</label>
+                    <input type="date" id="startDate" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="endDate" class="form-label">Leave End Date</label>
+                    <input type="date" id="endDate" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title" class="form-label">Subject</label>
+                    <input type="text" id="title" class="form-control" placeholder="Brief subject of your application" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reason" class="form-label">Detailed Reason</label>
+                    <textarea id="reason" class="form-control" placeholder="Please provide a detailed explanation for your leave request" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Submit Application
+                </button>
+                
+                <div id="submitLoading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Submitting your application...</p>
+                </div>
+                
+                <div id="submitMessage" class="result-message" style="display: none;"></div>
+            </form>
+        </div>
+        
+        <div class="card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-search"></i>
+                    Check Application Status
+                </h2>
+            </div>
+            <div class="form-group">
+                <label for="checkStudentID" class="form-label">Roll Number</label>
+                <input type="text" id="checkStudentID" class="form-control" placeholder="Enter your roll number" required>
+            </div>
+            
+            <button id="checkReplyBtn" class="btn btn-primary">
+                <i class="fas fa-check-circle"></i> Check Status
+            </button>
+            
+            <div id="checkLoading" class="loading">
+                <div class="spinner"></div>
+                <p>Retrieving application status...</p>
+            </div>
+            
+            <div id="replyMessage" class="result-message" style="display: none;"></div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div>© 2025 Student Leave Application Portal. All rights reserved.</div>
+            <div>For support: <a href="mailto:support@example.edu">support@example.edu</a></div>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+            authDomain: "learningproject1-8cd8a.firebaseapp.com",
+            projectId: "learningproject1-8cd8a",
+            storageBucket: "learningproject1-8cd8a.appspot.com",
+            messagingSenderId: "111895053885",
+            appId: "1:111895053885:web:63928897a46241ed2ecc54",
+            measurementId: "G-DH8QVL8EG5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Utility functions
+        function showElement(element) {
+            element.style.display = "block";
+        }
+        
+        function hideElement(element) {
+            element.style.display = "none";
+        }
+        
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = `result-message result-${type}`;
+            showElement(element);
+            
+            // Scroll to message
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function validateDates(startDate, endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const today = new Date();
+            
+            // Clear time portion for date-only comparison
+            today.setHours(0, 0, 0, 0);
+            
+            if (start < today) {
+                return "Start date cannot be in the past";
+            }
+            
+            if (end < start) {
+                return "End date cannot be before start date";
+            }
+            
+            return null; // No validation errors
+        }
+
+        // Submit form event handler
+        document.getElementById("leaveForm").addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitMessage = document.getElementById("submitMessage");
+            const submitLoading = document.getElementById("submitLoading");
+            hideElement(submitMessage);
+            
+            // Get form values
+            const studentName = document.getElementById("studentName").value.trim();
+            const rollNo = document.getElementById("rollNo").value.trim();
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+            const title = document.getElementById("title").value.trim();
+            const reason = document.getElementById("reason").value.trim();
+            
+            // Validate dates
+            const dateError = validateDates(startDate, endDate);
+            if (dateError) {
+                showMessage(submitMessage, dateError, "error");
+                return;
+            }
+            
+            // Show loading indicator
+            showElement(submitLoading);
+            
+            // Generate unique ID for application
+            const applicationId = `app_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+            
+            // Create application object
+            const application = {
+                studentName,
+                rollNo,
+                startDate,
+                endDate,
+                title,
+                reason,
+                applicationId,
+                status: "Pending",
+                submittedAt: new Date().toISOString()
+            };
+            
+            // Save to Firebase
+            set(ref(db, 'leaveApplications/' + applicationId), application)
+                .then(() => {
+                    hideElement(submitLoading);
+                    showMessage(submitMessage, "Your application has been submitted successfully. You can check the status using your roll number.", "success");
+                    document.getElementById("leaveForm").reset();
+                })
+                .catch((error) => {
+                    console.error("Error submitting application:", error);
+                    hideElement(submitLoading);
+                    showMessage(submitMessage, "Failed to submit application. Please try again later.", "error");
+                });
+        });
+
+        // Check reply button event handler
+        document.getElementById("checkReplyBtn").addEventListener('click', function() {
+            const studentID = document.getElementById("checkStudentID").value.trim();
+            const replyMessage = document.getElementById("replyMessage");
+            const checkLoading = document.getElementById("checkLoading");
+            
+            hideElement(replyMessage);
+            
+            if (!studentID) {
+                showMessage(replyMessage, "Please enter a valid Roll Number", "warning");
+                return;
+            }
+            
+            // Show loading indicator
+            showElement(checkLoading);
+            
+            // Query Firebase for applications with matching roll number
+            const applicationsRef = ref(db, 'leaveApplications/');
+            get(applicationsRef)
+                .then((snapshot) => {
+                    hideElement(checkLoading);
+                    
+                    if (snapshot.exists()) {
+                        const applications = snapshot.val();
+                        let foundApplications = [];
+                        
+                        // Find all applications for this student
+                        for (const key in applications) {
+                            const application = applications[key];
+                            if (application.rollNo === studentID) {
+                                foundApplications.push(application);
+                            }
+                        }
+                        
+                        if (foundApplications.length > 0) {
+                            // Sort by submission date (newest first)
+                            foundApplications.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+                            
+                            // Create HTML for applications
+                            let html = `<h3>Found ${foundApplications.length} application(s):</h3>`;
+                            
+                            foundApplications.forEach((app, index) => {
+                                const status = app.reply ? `<strong>Status:</strong> Reviewed<br><strong>Reply:</strong> ${app.reply}` : 
+                                    '<strong>Status:</strong> Pending Review';
+                                
+                                html += `
+                                    <div style="margin-top: 1rem; padding: 1rem; border: 1px solid #e5e7eb; border-radius: 8px;">
+                                        <p><strong>Application #${index + 1}</strong> (${new Date(app.submittedAt).toLocaleDateString()})</p>
+                                        <p><strong>Subject:</strong> ${app.title}</p>
+                                        <p><strong>Period:</strong> ${new Date(app.startDate).toLocaleDateString()} to ${new Date(app.endDate).toLocaleDateString()}</p>
+                                        <p>${status}</p>
+                                    </div>
+                                `;
+                            });
+                            
+                            replyMessage.innerHTML = html;
+                            showElement(replyMessage);
+                        } else {
+                            showMessage(replyMessage, "No applications found for this Roll Number.", "warning");
+                        }
+                    } else {
+                        showMessage(replyMessage, "No applications available in the system.", "warning");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error checking application status:", error);
+                    hideElement(checkLoading);
+                    showMessage(replyMessage, "Failed to check application status. Please try again later.", "error");
+                });
+        });
+        
+        // Date validation on input
+        document.getElementById("endDate").addEventListener('change', function() {
+            const startDate = document.getElementById("startDate").value;
+            const endDate = this.value;
+            const submitMessage = document.getElementById("submitMessage");
+            
+            if (startDate && endDate) {
+                const dateError = validateDates(startDate, endDate);
+                if (dateError) {
+                    showMessage(submitMessage, dateError, "warning");
+                } else {
+                    hideElement(submitMessage);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

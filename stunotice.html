@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Notices - HostelEase</title>
+    <style>
+        :root {
+            --primary-color: #0d4779;
+            --secondary-color: #3282B8;
+            --accent-color: #F9F9F9;
+            --text-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .logo {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 0;
+        }
+        
+        .student-notices ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .student-notices li {
+            padding: 20px;
+            background-color: #f9f9f9;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .student-notices li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notice-item p {
+            margin: 0;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .notice-item small {
+            font-size: 13px;
+            color: #777;
+            display: block;
+            margin-top: 8px;
+        }
+        
+        .notice-empty {
+            color: #777;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 20px;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+        }
+        
+        .back-link {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 0 6px 6px 0;
+            transition: all 0.3s ease;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+        }
+
+        .back-link:hover {
+            background-color: #0a3860;
+            transform: translateX(5px);
+        }
+
+        .back-link::before {
+            content: "←";
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+                margin: 20px auto;
+            }
+            
+            .back-link {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="statistics.html" class="back-link">Dashboard</a>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Student Notices</h1>
+            <p class="logo">HostelEase</p>
+        </div>
+        <div class="student-notices">
+            <ul id="studentNoticeList"></ul>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Kg-1hFmiEvKp8QwyxKh9GctrqEPm9Gk",
+            authDomain: "learningproject1-8cd8a.firebaseapp.com",
+            databaseURL: "https://learningproject1-8cd8a-default-rtdb.firebaseio.com/",
+            projectId: "learningproject1-8cd8a",
+            storageBucket: "learningproject1-8cd8a.appspot.com",
+            messagingSenderId: "111895053885",
+            appId: "1:111895053885:web:63928897a46241ed2ecc54",
+            measurementId: "G-DH8QVL8EG5"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const noticesRef = ref(db, 'notices/');
+
+        function formatDate(timestamp) {
+            if (!timestamp) return '';
+            
+            const date = new Date(timestamp);
+            return date.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function displayStudentNotices() {
+            const noticeList = document.getElementById("studentNoticeList");
+
+            onValue(noticesRef, (snapshot) => {
+                noticeList.innerHTML = ""; // Clears list
+                const notices = snapshot.val();
+                
+                if (notices) {
+                    // Convert to array for sorting
+                    const noticeArray = Object.keys(notices).map(key => ({
+                        id: key,
+                        ...notices[key]
+                    }));
+                    
+                    // Sort by timestamp (newest first)
+                    noticeArray.sort((a, b) => {
+                        return new Date(b.timestamp || 0) - new Date(a.timestamp || 0);
+                    });
+                    
+                    noticeArray.forEach((notice) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <div class="notice-item">
+                                <p>${notice.content}</p>
+                                <small>${formatDate(notice.timestamp)}</small>
+                            </div>
+                        `;
+                        noticeList.appendChild(li);
+                    });
+                } else {
+                    noticeList.innerHTML = `<p class="notice-empty">No notices available at the moment.</p>`;
+                }
+            });
+        }
+        
+        displayStudentNotices();
+    </script>
+</body>
+</html>

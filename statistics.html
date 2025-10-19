@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - HostelEase</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .page-transition {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+    
+        .sidebar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            height: 100vh;
+            padding: 0 1.7rem;
+            color: #fff;
+            overflow: hidden;
+            transition: all 0.5s linear;
+            background-image: linear-gradient(to right ,#000000, #003575);
+        }
+        
+        .sidebar:hover {
+            width: 240px;
+            transition: 0.5s;
+        }
+        
+        .logo {
+            height: 88px;
+            padding: 16px;
+        }
+        
+        .menu {
+            height: 88%;
+            position: relative;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .menu li {
+            padding: 1rem;
+            margin: 0px 0;
+            border-radius: 10px;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .menu li:hover,
+        .active {
+            background: #e0e0e058;
+        }
+        
+        .menu a {
+            color: #fff;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .menu a span {
+            overflow: hidden;
+        }
+        
+        .menu a i {
+            font-size: 1.2rem;
+        }
+        /* Main content styles */
+        .main--content {
+            margin-left: 80px;
+            padding: 2rem;
+            width: calc(100% - 80px);
+            min-height: 100vh;
+            transition: all 0.3s ease-out;
+        }
+
+        .header {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #003575;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .buttons-container a {
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .buttons-container button {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            background-image: linear-gradient(to right, #003575, #000000);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .buttons-container button i {
+            font-size: 1.3rem;
+        }
+
+        .buttons-container button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.02);
+        }
+
+        .brand-watermark {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #003575;
+            opacity: 0.8;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #003575;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .user-details span {
+            display: block;
+        }
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .notification-badge {
+            background-color: #ff3838;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+            }
+            
+            .sidebar:hover {
+                width: 200px;
+            }
+            
+            .main--content {
+                margin-left: 60px;
+                width: calc(100% - 60px);
+            }
+            
+            .sidebar:hover + .main--content {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+            
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .image-container {
+                order: -1;
+                margin-bottom: 2rem;
+            }
+            
+            .buttons-container button {
+                padding: 1rem;
+            }
+            
+            .brand-watermark {
+                font-size: 1.8rem;
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo"></div>
+            <ul class="menu">
+                <li class="active">
+                    <a href="studashboard.html">
+                        <i class='bx bxs-dashboard'></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="statistics.html">
+                        <i class='bx bx-stats'></i>
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="contact.html">
+                        <i class='bx bx-phone'></i>
+                        <span>Emergency Contact</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="guidelines1.html">
+                        <i class='bx bx-info-circle'></i>
+                        <span>Guidelines</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main--content page-transition">
+            <div class="header">
+                <p>Welcome back, Manage your hostel activities with ease.</p>
+                <div class="user-info">
+                    <div class="user-avatar">P</div>
+                    <div class="user-details">
+                        <span class="user-name" id="studentName">Person1</span>
+                        <span class="user-role" id="studentRoom">Reg No: 23UG010001</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-wrapper">
+                <div class="buttons-container">
+                    <a href="stunotice.html">
+                        <button>
+                            <i class='bx bx-bell'></i>
+                            Notice
+                            <span class="notification-badge" id="noticeBadge">0</span>
+                        </button>
+                    </a>
+                    <a href="stucomplaint.html">
+                        <button>
+                            <i class='bx bx-message-alt-detail'></i>
+                            Complaint
+                        </button>
+                    </a>
+                    <a href="stuleave.html">
+                        <button>
+                            <i class='bx bx-calendar-check'></i>
+                            Leave Application
+                        </button>
+                    </a>
+                    <a href="classtime.html">
+                        <button>
+                            <i class='bx bx-time-five'></i>
+                            Class Timetable
+                        </button>
+                    </a>
+                    <a href="cgpacalc.html">
+                        <button>
+                            <i class='bx bx-calculator'></i>
+                            CGPA Calculator
+                        </button>
+                    </a>
+                </div>
+                
+                <div class="image-container">
+                    <img src="hostelstudy-Photoroom.png" alt="Student studying">
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>© 2025 HostelEase. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Handle active menu highlighting
+            const currentPage = window.location.pathname.split("/").pop();
+            const menuItems = document.querySelectorAll(".menu li a");
+            
+            menuItems.forEach(item => {
+                if (item.getAttribute("href") === currentPage) {
+                    item.parentElement.classList.add("active");
+                } else {
+                    item.parentElement.classList.remove("active");
+                }
+            });
+
+            // Get current student ID (this should be set after authentication)
+            const studentId = getCurrentStudentId();
+            
+            // Fetch student information
+            fetchStudentInfo(studentId);
+            
+            // Fetch notices for the badge
+            fetchNotices();
+        });
+
+        // Helper function to get the current student ID (implement based on your auth system)
+        function getCurrentStudentId() {
+            // This should be replaced with your actual authentication logic
+            return localStorage.getItem('studentId') || '23CSE001'; // Default to our student's roll number
+        }
+
+        // Fetch student information
+        function fetchStudentInfo(rollNumber) {
+            // For a real application, you would use this fetch call
+            // But for now, we'll use the data we have directly
+            /* 
+            fetch(`/student_register/${rollNumber}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch student info');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Update student information in the UI
+                    document.getElementById('studentName').textContent = data.username;
+                    document.getElementById('studentRoom').textContent = `Reg No: ${data.regdNumber}`;
+                    
+                    // Update the avatar with the first letter of the username
+                    const userAvatar = document.querySelector('.user-avatar');
+                    userAvatar.textContent = data.username.charAt(0);
+                })
+                .catch(error => {
+                    console.error('Error fetching student info:', error);
+                    // Set default values in case of error
+                    setDefaultStudentInfo();
+                });
+            */
+            
+            // Direct implementation using the provided student data
+            const studentData = {
+                username: "Person1",
+                rollNumber: "23CSE001",
+                regdNumber: "23UG010001",
+                email: "23cse001.person1@giet.edu",
+                mobile: "8349913020",
+                gender: "Male",
+                password: "12345678" // Note: In a real app, never expose passwords in client-side code
+            };
+            
+            // Update student information in the UI
+            document.getElementById('studentName').textContent = studentData.username;
+            document.getElementById('studentRoom').textContent = `Reg No: ${studentData.regdNumber}`;
+            
+            // Update the avatar with the first letter of the username
+            const userAvatar = document.querySelector('.user-avatar');
+            userAvatar.textContent = studentData.username.charAt(0);
+        }
+
+        // Function to set default student info in case of errors
+        function setDefaultStudentInfo() {
+            document.getElementById('studentName').textContent = 'Person1';
+            document.getElementById('studentRoom').textContent = 'Reg No: 23UG010001';
+            const userAvatar = document.querySelector('.user-avatar');
+            userAvatar.textContent = 'P';
+        }
+
+    </script>
+</body>
+</html>
